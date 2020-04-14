@@ -76,7 +76,7 @@ const Register = props => {
   const [errorText, setErrorText] = useState('');
 
   const handleSubmitRegister = event => {
-  fetch('http://tabletophero.herokuapp.com/register/', {
+  fetch('https://tabletophero.herokuapp.com/register/', {
     method: 'post',
     headers: {'Content-type': 'application/json'},
     body: JSON.stringify({
