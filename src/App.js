@@ -97,10 +97,6 @@ const Nav = (props) => {
               Heroes</StyledLink>
             </li>
             <li className='navItem'>
-              <StyledLink to='/test' activeClassName='active' onClick={()=>{setNavToggled(false)}}>
-              Test</StyledLink>
-            </li>
-            <li className='navItem'>
               <StyledLink to='/register' activeClassName='active' onClick={()=>{setNavToggled(false)}}>
               Register</StyledLink>
             </li>
@@ -127,10 +123,6 @@ const Nav = (props) => {
             <li className='navItem'>
               <StyledLink to='/heroes' activeClassName='active' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}>
               Heroes</StyledLink>
-            </li>
-            <li className='navItem'>
-              <StyledLink to='/test' activeClassName='active' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}>
-              Test</StyledLink>
             </li>
             {props.loggedIn ? 
               null :

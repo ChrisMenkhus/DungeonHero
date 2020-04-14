@@ -108,7 +108,7 @@ const Heroes = (props) => {
 
 
   const createHero = async () => {
-    fetch("http://tabletophero.herokuapp.com/newhero/", {
+    fetch("https://tabletophero.herokuapp.com/newhero/", {
       method: "post",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
@@ -130,7 +130,7 @@ const Heroes = (props) => {
   const deleteHero = async (hero_id) => {
     console.log('delete')
 
-    fetch("http://tabletophero.herokuapp.com/deletehero/", {
+    fetch("https://tabletophero.herokuapp.com/deletehero/", {
       method: "post",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
@@ -146,7 +146,7 @@ const Heroes = (props) => {
   };  
 
   const listHeroes = async (user_id) => {
-    fetch(("http://tabletophero.herokuapp.com/heroes/" + user_id), {
+    fetch(("https://tabletophero.herokuapp.com/heroes/" + user_id), {
       method: "get",
       headers: { "Content-type": "application/json" }
     })

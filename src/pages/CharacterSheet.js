@@ -100,7 +100,7 @@ const CharacterSheet = (props) => {
 
   const GetHeroInfo = async (heroId) => {
     console.log('03 + getInfo');
-    fetch(("http://tabletophero.herokuapp.com/hero_info/" + props.heroId), {
+    fetch(("https://tabletophero.herokuapp.com/hero_info/" + props.heroId), {
       method: "get",
       headers: { "Content-type": "application/json" }
     })
