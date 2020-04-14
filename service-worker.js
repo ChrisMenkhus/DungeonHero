@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/DungeonHero/precache-manifest.14f1b956f9a709b641654ef4caf9d8ba.js"
+  "/DungeonHero/precache-manifest.f2685a61936de9dcc236aabad2f3059a.js"
 );
 
 self.addEventListener('message', (event) => {
