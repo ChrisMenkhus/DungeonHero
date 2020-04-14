@@ -116,7 +116,7 @@ const HeroDetailsPage = (props) => {
   }
 
   const updateHeroInfo = async () => {
-    fetch("http://tabletophero.herokuapp.com/hero_info/", {
+    fetch("https://tabletophero.herokuapp.com/hero_info/", {
       method: "post",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
