@@ -148,6 +148,7 @@ const Home = (props) => {
   return (
     <Style>
       <section className='head'>
+        <h2>git updated</h2>
         <h2 className='sentence'>
           Dont just play a hero <br/>
         </h2>     
