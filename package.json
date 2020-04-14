@@ -37,5 +37,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://chrismenkhus.github.io/DungeonHero/"
+  "homepage": "https://chrismenkhus.github.io/DungeonHero/",
+  "devDependencies": {
+    "gh-pages": "^2.2.0"
+  }
 }
