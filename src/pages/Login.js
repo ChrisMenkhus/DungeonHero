@@ -74,7 +74,7 @@ const Login = props => {
 
 
   const handleSubmit = event => {
-  fetch('http://tabletophero.herokuapp.com/login/', {
+  fetch('https://tabletophero.herokuapp.com/login/', {
     method: 'post',
     headers: {'Content-type': 'application/json'},
     body: JSON.stringify({
