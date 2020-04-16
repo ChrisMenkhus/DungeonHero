@@ -6,13 +6,11 @@ const SectionWrapper = styled.section`
   flex-direction: column;
   padding-bottom: 1rem;
   margin: 0.2rem 0.2rem auto 0.2rem;
-  background-color: ${props => props.bgColor ? props.bgColor : '#191919'};
+  background-color: ${props => props.bgColor ? props.bgColor : '#1B1E1C'};
   max-width: 14rem;
   width: 14rem;
   min-width: 8rem;
-  /*border-radius: 0.5rem;*/
 
-/*  border: 4px solid ${props => props.color ? props.color : '#191919'};*/
   
   h1 {
     text-align: center;
@@ -29,7 +27,7 @@ const SectionWrapper = styled.section`
   position: relative;
   left: 11rem;
   top: 0rem;
-  border-top: 50px solid ${props => props.color ? props.color : '#191919'};
+  border-top: 50px solid ${props => props.color ? props.color : 'white'};
   border-left: 60px solid transparent; 
   }
 
@@ -40,6 +38,8 @@ const SectionWrapper = styled.section`
     position: relative;
     bottom: 1.55rem;
     left: 12.75rem;
+    filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(103%);
+
   }
   }
 

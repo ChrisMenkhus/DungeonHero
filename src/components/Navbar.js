@@ -1,6 +1,6 @@
 
 import styled from 'styled-components';
-import {background_superdark, label_red} from '../Colors.js'
+import {background_superdark, secondary} from '../Colors.js'
 
 const Navbar = styled.nav`
   width: 100%;
@@ -9,6 +9,16 @@ const Navbar = styled.nav`
   z-index: 5;
   flex-wrap: nowrap;
   background-color: ${background_superdark};
+  background-color: #111111;
+
+  ion-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-left: auto;
+    margin-right: 1rem;
+    margin-bottom: auto;
+    color: white;
+  }
 
   ul {
     font-size: 16px;
@@ -31,7 +41,7 @@ const Navbar = styled.nav`
     }  
 
     .navItem:hover {
-      border-bottom: 4px solid ${label_red};
+      border-bottom: 4px solid ${secondary};
     }
     .right {
       display: inline;
@@ -45,6 +55,7 @@ const Navbar = styled.nav`
     .title {
       font-size: 20px;
       border-bottom: 0px;
+      color: ${secondary};
     }
     .title:hover {
       border-bottom: 0px;
@@ -52,14 +63,7 @@ const Navbar = styled.nav`
   }
   
 
-  ion-icon {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-left: auto;
-    margin-right: 1rem;
-    margin-bottom: auto;
-    color: white;
-  }
+
 
 `;
 

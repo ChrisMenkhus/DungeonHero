@@ -1,14 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import {background_superdark as background_verydark, label_red} from '../Colors.js'
+import {background_superdark, background_verydark, label_red, secondary} from '../Colors.js'
 import Button from '../components/Button.js'
 
 import bg from '../images/bg.jpg'
 
+const Home = (props) => {
+
 const Style = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: ${background_verydark};
+  background-color: ${background_superdark};
+  background-color: #111111;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -16,7 +19,21 @@ const Style = styled.div`
   background-size: cover;
   background-attachment: fixed;
 
-  @keyframes bgcolor {
+  .bigButton {
+
+
+  }
+
+
+
+  .messyButtonContainer {
+    margin: 0px; padding: 0px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+/*  @keyframes bgcolor {
     0% {
         background-color: #45a3e5
     }
@@ -36,7 +53,7 @@ const Style = styled.div`
     100% {
         background-color: #864cbf
     }
-  }
+  }*/
 
   .head {
     padding-top: 4rem;
@@ -55,11 +72,33 @@ const Style = styled.div`
     animation-direction: alternate;
 
     button {
-      margin-top: 2rem;
+      margin-top: 0rem;
       font-size: 1.2rem;
-      width: auto;
+      width: 12rem;
       padding: 1rem;
-      margin-bottom: 5rem;
+      border-radius: 0px;
+      margin-bottom: 1rem;
+      background-color: ${secondary};
+      color: ${background_superdark};
+      color: white;
+
+      -ms-transform: skewX(-20deg);
+      -webkit-transform: skewX(-20deg);
+      transform: skewX(-20deg);
+
+      &:first-child {
+        margin-top: 2rem;
+      }
+
+      transition: all 0.3s;
+
+    }
+
+    button:hover {
+      width: 99vw;
+      -ms-transform: skewX(-0deg);
+      -webkit-transform: skewX(-0deg);
+      transform: skewX(-0deg);
     }
   }
 
@@ -69,7 +108,7 @@ const Style = styled.div`
     margin: auto;
     margin-top: 2rem;
     span {
-      color: ${label_red}; 
+      color: ${secondary}; 
       font-weight: lighter;
       font-size: 0.8rem;
     }
@@ -140,15 +179,14 @@ const Style = styled.div`
     25% { opacity: 1; -moz-transform: translateY(0px); }
     30% { opacity: 0; -moz-transform: translateY(50px); }
     80% { opacity: 0; }
-    100% { opacity: 0; }
+    100% { opacity: 0; } 
   }
+  
 `;
 
-const Home = (props) => {
   return (
     <Style>
       <section className='head'>
-        <h2>git updated</h2>
         <h2 className='sentence'>
           Dont just play a hero <br/>
         </h2>     
@@ -160,8 +198,9 @@ const Home = (props) => {
           <span>god</span>
           <span>BBEG</span>
         </h1>   
-        <div>
-          <Button onClick={()=>{props.setRedirectPath('/register')}} >Begin Journey</Button>
+        <div className='messyButtonContainer'>
+          <Button className='bigButton' onClick={()=>{props.setRedirectPath('/register')}} >Begin Journey</Button>
+          <Button className='bigButton loginButton' onClick={()=>{props.setRedirectPath('/login')}} >Login</Button>
         </div>
       </section>
 

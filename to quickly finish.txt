@@ -1,0 +1,9 @@
+to quickly finish;
+
+
+make the details page into a template
+
+push that template to the combat page, equipment page, and abilities page.
+
+plug in the variables for saving to the database for each page 
+

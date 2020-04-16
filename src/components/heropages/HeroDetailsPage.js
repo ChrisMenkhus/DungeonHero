@@ -1,61 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import styled from 'styled-components';
+import React, {useState, useEffect} from 'react'
+import styled from 'styled-components'
+import Grid from '../Grid.js'
 import GridItem from '../GridItem.js'
 import SectionWrapper from '../SectionWrapper.js'
 import * as Colors from '../../Colors.js'
 import Button from '../Button.js'
 import combat from '../../images/combat.svg';
-
-
-
-
-const Style = styled.div`
-  width: 100%;
-  display: flex; flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding-bottom: 2rem;
-  h4 {
-    text-align: center; 
-    width: 100%;
-    margin: auto;
-    margin-bottom: 2rem;
-    font-size: 1.5rem;
-    color: white;
-    font-weight: lighter;
-  }
-
-  .saveButton {
-    color: white;
-    font-size: 1rem;
-    padding: 0.5rem; 
-     
-
-  }
-`;
-
-const Row = styled.div`
-  width: auto;
-
-  display: flex; flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
-const Grid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  height: auto;
-  width: auto;
-  justify-content: ${props => props.justify ? props.justify : 'center'};
-  align-content: center;
-  /*background-color: ${Colors.background_dark};*/
-  margin: auto auto auto auto;
-`;
-
-
+import HeroPageWrapper from '../HeroPageWrapper.js'
+import Row from '../Row.js'
 
 const HeroDetailsPage = (props) => {
+  // initialized state variables for this page.
   const [characterName, setCharacterName] = useState(props.heroId);
   const [race, setRace] = useState('null');
   const [heroClass, setHeroClass] = useState('null');
@@ -71,38 +26,32 @@ const HeroDetailsPage = (props) => {
   const [looks, setLooks] = useState('null');  
   const [about, setAbout] = useState('null');  
   const [size, setSize] = useState('null');
+
+  // Reference to the characters info from the database.
   const heroInfo = props.heroInfo;
+
   const [changesDetected, setChangesDetected] = useState();
-  const [numberOfSaves, setNumberOfSaves] = useState(0);
-  const [initialSaveNullifier, setInitialSaveNullifier] = useState(0);
-  const [mySaveTimer, setMySaveTimer] = useState(0);
   let detectedChanges = false;
+
+  const [initialSaveNullifier, setInitialSaveNullifier] = useState(0);
+  const [numberOfSaves, setNumberOfSaves] = useState(0);
+  
+  const [mySaveTimer, setMySaveTimer] = useState(0);
   const saveTimerLength = 9000;
 
+  const clearSaveTimer = () => {
+    clearTimeout(mySaveTimer);
+  }
+
+  // Auto saves the page after the specified length
   const startSaveTimer = () => {
     clearTimeout(mySaveTimer);
-    console.log('timer started')
     setMySaveTimer( setTimeout( () => {
-      // console.log('timer returned')
       SaveChanges();
     }, saveTimerLength) );
   }
 
-  useEffect(()=>{ 
-    setInitialSaveNullifier(initialSaveNullifier + 1);
-    //console.log('initialSaveNullifier = ' + initialSaveNullifier)
-    if (initialSaveNullifier > 2) {
-      detectedChanges = true;
-      setChangesDetected(detectedChanges);
-
-      //console.log('changesDetected Var = ' + changesDetected)
-      startSaveTimer();               
-    } else {
-      //console.log('Initial Save Nullified')
-    }
-  }, [characterName, race, heroClass, level, alignment, age, gender, deity, height, weight, eyes, hair, looks, about]);
-
-
+  // Update the state variables to the characters info from the database
   const handleState = (info) => {
     setCharacterName(info.charactername);
     setRace(info.race);
@@ -121,33 +70,35 @@ const HeroDetailsPage = (props) => {
     setSize(info.size);
   }
 
+  // Update the state of this page when the heroInfo state variable inside of CharacterSheet.js changes
   useEffect(() => {
     handleState(heroInfo);
   }, [heroInfo]);
 
+  // Start the save timer when this page's state variables change
+  useEffect(()=>{ 
+    setInitialSaveNullifier(initialSaveNullifier + 1);
+    if (initialSaveNullifier > 2) {
+      detectedChanges = true;
+      setChangesDetected(detectedChanges);
+      startSaveTimer();               
+    }
+  }, [characterName, race, heroClass, level, alignment, age, gender, deity, height, weight, eyes, hair, looks, about]);
   
-
-  // i can have a state object instead of a bunch of variables. onEffect heroes prop being changed this state object can be updated as well. 
-
+  // If changes were detected update the character info in the database
   const SaveChanges = () => {
     if (detectedChanges) {
-      updateHeroInfo();
-      setNumberOfSaves(numberOfSaves + 1);
-      // console.log('NumberOfSaves IS EQUAL TO = ' + numberOfSaves);    
-
+      setNumberOfSaves(numberOfSaves + 1); 
       detectedChanges = false; 
       setChangesDetected(detectedChanges);
-
-      // console.log('changesDetected Var 2= ' + changesDetected)
-
+      updateHeroInfo();
     } else {
-      // console.log('Did not save: no changes detected')
+      console.log('Did not save: no changes detected')
     }
   }
 
+  // save the page's state variables to the database
   const updateHeroInfo = async () => {
-    console.log('UPDATING SERVER WITH HERO INFO')
-
     fetch("https://tabletophero.herokuapp.com/hero_info/", {
       method: "post",
       headers: { "Content-type": "application/json" },
@@ -171,25 +122,16 @@ const HeroDetailsPage = (props) => {
 
       })
     })
-      .then(response => response.json())
-      .then(res => {
-        if (res) {
-          // console.log(res);
-          // props.GetHeroInfo(props.heroId);
-        }
-      });
   }; 
 
-  
-
   return (
-    <Style>
+    <HeroPageWrapper color={Colors.background_superdark}>
       <h4>Basic Details</h4>
+
       <Row>
       <Grid justify='center'>
       
-        {/* ability scores */}
-      <SectionWrapper color={Colors.label_red}>
+      <SectionWrapper color={'white'}>
         <h1>Character Info</h1>
         <div className='logoSpot'><img className='logoImg' src={combat} alt='combat logo'/></div>
         <GridItem derivativeLabel = 'Character Name'
@@ -243,8 +185,9 @@ const HeroDetailsPage = (props) => {
           isNumber1= {false}
           startSaveTimer={startSaveTimer}
         />
-      </SectionWrapper>    
-      <SectionWrapper color={Colors.label_orange}>
+      </SectionWrapper>   
+
+      <SectionWrapper color='white'>
         <h1>Roleplay Info</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
         <GridItem derivativeLabel = 'Age'
@@ -318,12 +261,18 @@ const HeroDetailsPage = (props) => {
           startSaveTimer={startSaveTimer}
         />
       </SectionWrapper>
-        <Button className='saveButton' color={changesDetected ? Colors.label_green : '#A9A9A9'}
-          onClick={()=>{SaveChanges()}} 
-         >{changesDetected ? 'save' : 'saved'}</Button>
+
       </Grid>     
       </Row>
-    </Style>
+
+      <Button className='saveButton' color={changesDetected ? Colors.secondary : '#A9A9A9'}
+        onClick={()=>{
+          detectedChanges=true; setChangesDetected(detectedChanges); clearSaveTimer(); SaveChanges();
+          }}>
+        {changesDetected ? 'save' : 'saved'}
+      </Button>
+
+    </HeroPageWrapper>
   );
 }
 

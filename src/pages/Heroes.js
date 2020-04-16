@@ -35,7 +35,7 @@ const Style = styled.div`
     margin-left: auto; margin-right: auto;
     padding: 0.5rem 1rem;
     width: fit-content;
-    background-color: ${Colors.label_red};   
+    background-color: ${Colors.background_superdark};   
 
     h3 {
       font-size: 1rem;

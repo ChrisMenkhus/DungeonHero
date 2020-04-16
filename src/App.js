@@ -15,6 +15,7 @@ import Heroes from './pages/Heroes.js'
 import Home from './pages/Home.js'
 import Login from './pages/Login.js'
 import Register from './pages/Register.js'
+import * as Colors from './Colors.js'
 
 import Test from './pages/Test.js'
 
@@ -52,6 +53,11 @@ const Style = styled.div`
 
 const NavStyle = styled.div`
   z-index: 3;
+
+  .myTitle {
+    color: ${Colors.secondary};
+    font-weight: bolder;
+  }
 `;
 
 const StyledLink = styled(NavLink)`
@@ -59,7 +65,12 @@ const StyledLink = styled(NavLink)`
   margin: 0px 5px;
   color: #EAEAEA;
   &:hover { 
-  color: white; }
+  color: white; 
+  }
+
+  .title {
+    color: ${Colors.secondary};
+  }
 
   .active {
     color: purple;
@@ -86,18 +97,19 @@ const Nav = (props) => {
               <StyledLink exact={true} to='/' onClick={()=>{setNavToggled(false)}}>
               TableTopHero</StyledLink>
             </li>
-            <li className='navItem'>
-              <StyledLink to='/' activeClassName='active' onClick={()=>{setNavToggled(false)}}>
-              Home</StyledLink>
-            </li>
+            {/* <li className='navItem'> */}
+            {/*   <StyledLink to='/' activeClassName='active' onClick={()=>{setNavToggled(false)}}> */}
+            {/*   Home</StyledLink> */}
+            {/* </li> */}
+            {props.loggedIn ? 
             <li className='navItem'>
               <StyledLink to='/heroes' activeClassName='active' onClick={()=>{setNavToggled(false)}}>
               Heroes</StyledLink>
-            </li>
+            </li> :
             <li className='navItem'>
               <StyledLink to='/register' activeClassName='active' onClick={()=>{setNavToggled(false)}}>
-              Register</StyledLink>
-            </li>
+              Register</StyledLink> 
+            </li> }
             <li className='navItem'>
               <StyledLink to='/login' activeClassName='active' onClick={()=>{setNavToggled(false); props.setLoggedIn(false); props.setRedirectPath('/home')}}>
               {props.loggedIn ? 'Logout' : 'Login'}</StyledLink>
@@ -112,22 +124,23 @@ const Nav = (props) => {
             <ul>
             <li className='navItem title'>
               <StyledLink exact={true} to='/' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}>
-              TableTopHero</StyledLink>
+              <span class='myTitle'>TableTopHero</span></StyledLink>
             </li>
-            <li className='navItem'>
-              <StyledLink exact to='/' activeClassName='active' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}>
-              Home</StyledLink>
-            </li>
+            {/* <li className='navItem'> */}
+            {/*   <StyledLink exact to='/' activeClassName='active' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}> */}
+            {/*   Home</StyledLink> */}
+            {/* </li> */}
+            {props.loggedIn ? 
             <li className='navItem'>
               <StyledLink to='/heroes' activeClassName='active' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}>
               Heroes</StyledLink>
             </li>
-            {props.loggedIn ? 
-              null :
-            <li className='navItem'>
-              <StyledLink to='/register' activeClassName='active' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}>
-              Register</StyledLink> 
-            </li> }
+              : null }
+            
+            {/* <li className='navItem'> */}
+            {/*   <StyledLink to='/register' activeClassName='active' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}> */}
+            {/*   Register</StyledLink>  */}
+            {/* </li>  */}
             <li className='navItem right'>
               <StyledLink to='/login' activeClassName='active' onClick={()=>{setNavToggled(false); props.setLoggedIn(false); props.setRedirectPath('/home') }}>
               {props.loggedIn ? 'Logout' : 'Login'}</StyledLink>

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import Button from '../components/Button.js'
-import {background_superdark as background_verydark, label_red} from '../Colors.js'
+import {background_superdark, background_verydark, label_red, secondary} from '../Colors.js'
 
 
 
@@ -9,7 +9,7 @@ import {background_superdark as background_verydark, label_red} from '../Colors.
 
 const Style = styled.div`
     height: 100vh;
-    background-color: ${background_verydark};
+    background-color: ${background_superdark};
     h1 {
       text-align: center;
       font-weight: lighter;
@@ -41,7 +41,13 @@ const Style = styled.div`
     button {
       margin: auto;
       margin-left: auto; margin-right: auto;
-    }
+      background-color: ${secondary};
+      color: ${background_superdark};
+      -ms-transform: skewX(-20deg);
+      -webkit-transform: skewX(-20deg);
+      transform: skewX(-20deg);
+      border-radius: 0px;
+      }
     }
 
   .errorText {
@@ -63,7 +69,7 @@ const Container = styled.div`
   width: auto;
   padding: 1rem 3rem;
   background-color: gray;
-    background-color: ${label_red};
+  background-color: ${background_superdark};
 
 `;
 

@@ -1,9 +1,14 @@
-import React, {useState} from 'react';
-import styled from 'styled-components';
+import React, {useState} from 'react'
+import styled from 'styled-components'
+import Grid from '../Grid.js'
 import GridItem from '../GridItem.js'
 import SectionWrapper from '../SectionWrapper.js'
 import * as Colors from '../../Colors.js'
 import combat from '../../images/combat.svg';
+
+import Button from '../Button.js'
+import HeroPageWrapper from '../HeroPageWrapper.js'
+import Row from '../Row.js'
 
 
 const Style = styled.div`
@@ -25,29 +30,9 @@ const Style = styled.div`
 
 const Column = styled.div`
   width: auto;
-
   display: flex; flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
-`;
-
-const Row = styled.div`
-  width: auto;
-
-  display: flex; flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
-const Grid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  height: auto;
-  width: auto;
-  justify-content: ${props => props.justify ? props.justify : 'center'};
-  align-content: center;
-  /*background-color: ${Colors.background_dark};*/
-  margin: auto auto auto auto;
 `;
 
 const HeroCombatPage = (props) => {
@@ -95,12 +80,12 @@ const HeroCombatPage = (props) => {
   }
 
   return (
-    <Style>
+    <HeroPageWrapper color={Colors.background_superdark}>
       <h4>Combat</h4>
       <Row>
       <Grid justify='center'>
-        {/* ability scores */}
-      <SectionWrapper color={Colors.label_blue}>
+
+      <SectionWrapper>
         <h1>Ability Scores</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
         <GridItem derivativeLabel = 'Strength'
@@ -153,8 +138,7 @@ const HeroCombatPage = (props) => {
         />
       </SectionWrapper>
       <Column>
-        {/* health */}
-      <SectionWrapper color={Colors.label_green} bgColor={Colors.background_verydark}>
+      <SectionWrapper>
         <h1>Health</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
         <GridItem derivativeLabel = 'Max HP'
@@ -189,7 +173,7 @@ const HeroCombatPage = (props) => {
         />
       </SectionWrapper>
         {/* armor */}
-      <SectionWrapper color={Colors.label_orange}>
+      <SectionWrapper>
         <h1>Armor</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
         <GridItem derivativeLabel = 'AC'
@@ -265,7 +249,7 @@ const HeroCombatPage = (props) => {
       <Grid justify='center'>
       <Column>
         {/* attack bonuses */}
-      <SectionWrapper color={Colors.label_red}>
+      <SectionWrapper>
         <h1>Attack Bonuses</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
         <GridItem derivativeLabel = 'Melee'
@@ -312,7 +296,7 @@ const HeroCombatPage = (props) => {
         />
       </SectionWrapper>
         {/* saving throws */}
-      <SectionWrapper color={Colors.label_pink}>
+      <SectionWrapper>
         <h1>Saving Throws</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
         <GridItem derivativeLabel = 'fortitude'
@@ -371,7 +355,7 @@ const HeroCombatPage = (props) => {
       </SectionWrapper>
       </Column>
         {/* combat speed */}
-      <SectionWrapper color={Colors.label_yellow}>
+      <SectionWrapper>
         <h1>Combat Speed</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
         <GridItem derivativeLabel = 'Initiative'
@@ -401,7 +385,7 @@ const HeroCombatPage = (props) => {
 
       
       </Row>
-    </Style>
+    </HeroPageWrapper>
   );
 }
 

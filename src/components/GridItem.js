@@ -10,7 +10,7 @@ const Container = styled.div`
     min-width: 8rem;
     /*min-height: 5rem;*/
     height: 100%;
-    background-color: ${Colors.background_superdark};
+    background-color: ${'#1B1E1C'};
 
     h2 {
       font-size: 0.6rem;
@@ -24,7 +24,7 @@ const Container = styled.div`
     }
 
     .derivative {
-      border: 0.5px solid #2B2B2B;
+      /*border: 0.5px solid #2B2B2B;*/
     }
 
     .collapseButton {
@@ -37,10 +37,34 @@ const Container = styled.div`
 
       display: flex;
       flex-direction: column;
-      border-bottom: 1px solid ${Colors.primary};
+      /*border-bottom: 1px solid ${Colors.primary};*/
       padding-top: 0.8rem;
     }
 `;
+
+const Input = styled.input`
+    display: flex;
+    width: auto;
+    min-width: 1rem;
+    font-size: 1rem;
+    margin: 0rem auto 0.5rem auto;
+    background-color: #E3E3E3;
+    border: none;
+    /*border-radius: 2rem;*/
+    color: black;
+    text-align: center;
+    /*background-color: ${Colors.background_verydark};*/
+    /*border-bottom: 1px solid red;*/
+
+
+    &:focus {
+      /*outline: 2px solid purple;*/
+      box-shadow: 0 0 5px white;
+/*      padding: 3px 0px 3px 3px;
+      margin: 5px 1px 3px 0px;*/
+      border: 1px solid white;
+    }
+  `;
 
 const GridItem = (props) => {
   // useEffect(()=>{
@@ -62,7 +86,7 @@ const GridItem = (props) => {
         :
         <div className='properties'>
           { DisplayProperties(props, toggleCollapsed) }
-          <Button onClick={()=>{toggleCollapsed(!collapsed)}}>close</Button>
+          
           {props.children}
         </div>
       }         
@@ -217,19 +241,6 @@ const DisplayProperties = (props, toggleCollapsed) => {
   )  
 }
 
-const Input = styled.input`
-    display: flex;
-    width: auto;
-    min-width: 1rem;
-    font-size: 1rem;
-    margin: 0rem auto auto auto;
-    background-color: black;
-    border: none;
-    /*border-radius: 2rem;*/
-    color: white;
-    text-align: center;
-    background-color: ${Colors.background_verydark};
-    border-bottom: 1px solid white;
-  `;
+
 
 export default GridItem;
