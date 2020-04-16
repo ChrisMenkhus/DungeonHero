@@ -12,7 +12,7 @@ import equipment from '../images/equipment.svg';
 import skills from '../images/skills.svg';
 
 
-const CharacterSheet_Wrapper = styled.div` width: auto;
+const CharacterSheetWrapper = styled.div` width: auto;
   min-height: 100vh;
   height: auto;
   background-color: ${Colors.background_dark};
@@ -23,7 +23,7 @@ const CharacterSheet_Wrapper = styled.div` width: auto;
 }
 `;
 
-const CharacterSheet_Nav = styled.div`
+const CharacterSheetNav = styled.div`
   z-index: 2;
   height: 3rem;
   width: 100%;
@@ -77,63 +77,61 @@ const CharacterSheet_Nav = styled.div`
 
 `;
 
-const CharacterSheet_Footer = styled.div`
-  min-height: 1rem;
-  display: flex;
-  flex-direction: row;
-  background-color: ${Colors.background_dark}; 
-    opacity: 0.5;
-  margin: 0px;
-  margin-bottom: 0px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  -webkit-box-shadow: 0px -5px 11px -4px #000000; 
-  box-shadow: 0px -5px 11px -4px #000000;
-`;
-
 
 const CharacterSheet = (props) => {
   const [heroInfo, setHeroInfo] = useState([]);
   const [page, setPage] = useState('details');
+  const paramsId = props.match.params.id;
+  const mainHeroId = props.heroId;
 
-  const GetHeroInfo = async (heroId) => {
-    console.log('03 + getInfo');
-    fetch(("https://tabletophero.herokuapp.com/hero_info/" + props.heroId), {
-      method: "get",
-      headers: { "Content-type": "application/json" }
-    })
-    .then(response => response.json())
-    .then(res => {
-      if (res) {
-        setHeroInfo(res);          
+  // const GetHeroInfo = async (heroId) => {
+  //   console.log('03 + getInfo');
+  //   fetch(("https://tabletophero.herokuapp.com/hero_info/" + props.heroId), {
+  //     method: "get",
+  //     headers: { "Content-type": "application/json" }
+  //   })
+  //   .then(response => response.json())
+  //   .then(res => {
+  //     if (res) {
+  //       setHeroInfo(res);          
+  //     }
+  //   });
+  // };
+
+  useEffect(() => {
+    const GetHeroInfo = async (heroId) => {
+      fetch(("https://tabletophero.herokuapp.com/hero_info/" + props.heroId), {
+        method: "get",
+        headers: { "Content-type": "application/json" }
+      })
+      .then(response => response.json())
+      .then(res => {
+        if (res) {
+          setHeroInfo(res);          
+        }
+      });
+    };
+
+    GetHeroInfo(mainHeroId);
+  }, [mainHeroId]);
+
+   useEffect(() => {
+      if (mainHeroId === '') {
+        console.log('USING PARAMS TO FETCH CHARACTER SHEET')
+        console.log('user logged on = ' + props.userId)
+        props.setHeroId(paramsId)        
       }
-    });
-  };
-
-  useEffect(() => {
-    console.log('01 + useEffect on ' + props.heroId);
-    GetHeroInfo(props.heroId);
-  }, [props.heroId]);
-
-  useEffect(() => {
-    console.log('02 + useEffect');
-    props.setHeroId(props.match.params.id)
-    //GetHeroInfo(props.match.params.id);
-  }, [props.match.params.id]);
+   }, [paramsId]);
 
   props.setRedirectPath('');
 
   return (
-    <CharacterSheet_Wrapper>
-        
-
+    <CharacterSheetWrapper>
         {
           page === 'actions' ? 
           <HeroActionsPage /> :
           page === 'details' ? 
-          <HeroDetailsPage userId={props.userId} heroInfo={heroInfo} heroId={props.heroId} GetHeroInfo={GetHeroInfo}/> :
+          <HeroDetailsPage userId={props.userId} heroInfo={heroInfo} heroId={props.heroId} /> :
           page === 'combat' ? 
           <HeroCombatPage/> :
           page === 'equipment' ? 
@@ -141,7 +139,7 @@ const CharacterSheet = (props) => {
           null
         }
 
-        <CharacterSheet_Nav>
+        <CharacterSheetNav>
           <div className={page === 'actions' ? 'active item' : 'item'} onClick={()=>{ setPage('actions') }}>
             <img src={details} alt='actions page'/>
             <h1>Actions</h1>
@@ -162,9 +160,9 @@ const CharacterSheet = (props) => {
             <img src={skills} alt='skills page'/>
             <h1>Skills</h1>
           </div>
-        </CharacterSheet_Nav>
+        </CharacterSheetNav>
 
-    </CharacterSheet_Wrapper>
+    </CharacterSheetWrapper>
   );
 }
 

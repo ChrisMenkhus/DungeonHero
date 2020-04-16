@@ -57,26 +57,49 @@ const Grid = styled.div`
 
 const HeroDetailsPage = (props) => {
   const [characterName, setCharacterName] = useState(props.heroId);
-  const [race, setRace] = useState('Halfling');
-  const [heroClass, setHeroClass] = useState('wizard');
-  const [level, setLevel] = useState('5');
-  const [alignment, setAlignment] = useState('Neutral Good');
+  const [race, setRace] = useState('null');
+  const [heroClass, setHeroClass] = useState('null');
+  const [level, setLevel] = useState('00');
+  const [alignment, setAlignment] = useState('null');
   const [age, setAge] = useState(45);
-  const [gender, setGender] = useState('female');
-  const [deity, setDeity] = useState('Athiest');
-  const [height, setHeight] = useState('3ft 2in.');
-  const [weight, setWeight] = useState('27 lbs');
-  const [eyes, setEyes] = useState('purple');
-  const [hair, setHair] = useState('raven');  
-  const [looks, setLooks] = useState('awesome');  
-  const [about, setAbout] = useState('lit');  
-  const [size, setSize] = useState('small');
+  const [gender, setGender] = useState('null');
+  const [deity, setDeity] = useState('null');
+  const [height, setHeight] = useState('null.');
+  const [weight, setWeight] = useState('null');
+  const [eyes, setEyes] = useState('null');
+  const [hair, setHair] = useState('null');  
+  const [looks, setLooks] = useState('null');  
+  const [about, setAbout] = useState('null');  
+  const [size, setSize] = useState('null');
+  const heroInfo = props.heroInfo;
+  const [changesDetected, setChangesDetected] = useState();
+  const [numberOfSaves, setNumberOfSaves] = useState(0);
+  const [initialSaveNullifier, setInitialSaveNullifier] = useState(0);
+  const [mySaveTimer, setMySaveTimer] = useState(0);
+  let detectedChanges = false;
+  const saveTimerLength = 9000;
 
+  const startSaveTimer = () => {
+    clearTimeout(mySaveTimer);
+    console.log('timer started')
+    setMySaveTimer( setTimeout( () => {
+      // console.log('timer returned')
+      SaveChanges();
+    }, saveTimerLength) );
+  }
 
-  const [changesDetected, setChangesDetected] = useState(false);
-  useEffect(()=>{
-    setChangesDetected(true);
-    startSaveTimer();
+  useEffect(()=>{ 
+    setInitialSaveNullifier(initialSaveNullifier + 1);
+    //console.log('initialSaveNullifier = ' + initialSaveNullifier)
+    if (initialSaveNullifier > 2) {
+      detectedChanges = true;
+      setChangesDetected(detectedChanges);
+
+      //console.log('changesDetected Var = ' + changesDetected)
+      startSaveTimer();               
+    } else {
+      //console.log('Initial Save Nullified')
+    }
   }, [characterName, race, heroClass, level, alignment, age, gender, deity, height, weight, eyes, hair, looks, about]);
 
 
@@ -99,23 +122,32 @@ const HeroDetailsPage = (props) => {
   }
 
   useEffect(() => {
-    handleState(props.heroInfo);
-  }, [props.heroInfo]);
+    handleState(heroInfo);
+  }, [heroInfo]);
 
   
 
   // i can have a state object instead of a bunch of variables. onEffect heroes prop being changed this state object can be updated as well. 
 
   const SaveChanges = () => {
-    if (changesDetected) {
+    if (detectedChanges) {
       updateHeroInfo();
-      console.log(characterName + '<--- SaveChanges Function')
-      console.log('save attempted')
-      setChangesDetected(false);      
+      setNumberOfSaves(numberOfSaves + 1);
+      // console.log('NumberOfSaves IS EQUAL TO = ' + numberOfSaves);    
+
+      detectedChanges = false; 
+      setChangesDetected(detectedChanges);
+
+      // console.log('changesDetected Var 2= ' + changesDetected)
+
+    } else {
+      // console.log('Did not save: no changes detected')
     }
   }
 
   const updateHeroInfo = async () => {
+    console.log('UPDATING SERVER WITH HERO INFO')
+
     fetch("https://tabletophero.herokuapp.com/hero_info/", {
       method: "post",
       headers: { "Content-type": "application/json" },
@@ -142,27 +174,13 @@ const HeroDetailsPage = (props) => {
       .then(response => response.json())
       .then(res => {
         if (res) {
-          console.log(res);
-          props.GetHeroInfo(props.heroId);
+          // console.log(res);
+          // props.GetHeroInfo(props.heroId);
         }
       });
   }; 
 
-  const [mySaveTimer, setMySaveTimer] = useState(0);
-  const startSaveTimer = () => {
-    
-
-    clearTimeout(mySaveTimer);
-
-    setMySaveTimer( setTimeout(()=>{
-
-      console.log('timer returned')
-
-      SaveChanges();
-
-      
-    }, 3000) );
-  }
+  
 
   return (
     <Style>

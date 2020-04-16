@@ -5,11 +5,9 @@ import {
   HashRouter as Router,
   Switch,
   Route,
-  Link,
   NavLink,
   Redirect
 } from "react-router-dom";
-
 import Navbar from './components/Navbar.js'
 import NavbarMobile from './components/NavbarMobile.js'
 import CharacterSheet from './pages/CharacterSheet.js'
@@ -75,7 +73,7 @@ const Nav = (props) => {
     <NavStyle>
       <Media query={{ maxWidth: 620 }} 
         render={ ()=>(
-          <div className='nav-icon' className={navToggled ? 'toggled nav-icon' : 'nav-icon'} onClick={()=>{setNavToggled(!navToggled)}}>
+          <div className={navToggled ? 'toggled nav-icon' : 'nav-icon'} onClick={()=>{setNavToggled(!navToggled)}}>
             <div/>
           </div> 
         )}

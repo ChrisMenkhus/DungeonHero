@@ -3,10 +3,6 @@ import styled from "styled-components";
 import Button from '../components/Button.js'
 import {background_superdark as background_verydark, label_red} from '../Colors.js'
 
-require('dotenv').config()
-console.log('dot env:')
-console.log(process.env.BASE_URL);
-
 
 const Style = styled.div`
     height: 100vh;
