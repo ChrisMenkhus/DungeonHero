@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4ae07ef983b6414af98cc1101626ccbf",
+    "revision": "da723d8749e62108845953b4514ed2c3",
     "url": "/DungeonHero/index.html"
   },
   {
-    "revision": "048cdc05e1ca59b7a0e7",
-    "url": "/DungeonHero/static/css/main.f80f3e5b.chunk.css"
+    "revision": "d88cd59cf63372cc93af",
+    "url": "/DungeonHero/static/css/main.b4d8c150.chunk.css"
   },
   {
-    "revision": "ad2c15f904c59c9b5dd7",
-    "url": "/DungeonHero/static/js/2.1c979ec5.chunk.js"
+    "revision": "259f719efbe4cccbaa9c",
+    "url": "/DungeonHero/static/js/2.06336741.chunk.js"
   },
   {
     "revision": "f231859d6585c4cd5f80c344783ed269",
-    "url": "/DungeonHero/static/js/2.1c979ec5.chunk.js.LICENSE.txt"
+    "url": "/DungeonHero/static/js/2.06336741.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "048cdc05e1ca59b7a0e7",
-    "url": "/DungeonHero/static/js/main.d3eb7082.chunk.js"
+    "revision": "d88cd59cf63372cc93af",
+    "url": "/DungeonHero/static/js/main.3be19b9e.chunk.js"
   },
   {
     "revision": "2769ad37f60677e94d4c",
