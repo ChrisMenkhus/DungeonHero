@@ -1,38 +1,20 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import Grid from '../Grid.js'
 import GridItem from '../GridItem.js'
 import SectionWrapper from '../SectionWrapper.js'
 import * as Colors from '../../Colors.js'
 import combat from '../../images/combat.svg';
-
 import Button from '../Button.js'
 import HeroPageWrapper from '../HeroPageWrapper.js'
 import Row from '../Row.js'
-
-
-const Style = styled.div`
-  width: 100%;
-  display: flex; flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding-bottom: 2rem;
-  h4 {
-    text-align: center; 
-    width: 100%;
-    margin: auto;
-    margin-bottom: 2rem;
-    font-size: 1.5rem;
-    color: white;
-    font-weight: lighter;
-  }
-`;
 
 const Column = styled.div`
   width: auto;
   display: flex; flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
+
 `;
 
 const HeroCombatPage = (props) => {
@@ -67,6 +49,136 @@ const HeroCombatPage = (props) => {
   const [initiativeMiscMod, setInitiativeMiscMod] = useState(8);
   const [speed, setSpeed] = useState(30);
   const [damageReduction, setDamageReduction] = useState(0);
+
+  // Reference to the characters info from the database.
+  const [heroInfo, setHeroInfo] = useState();
+
+  const [changesDetected, setChangesDetected] = useState();
+
+  const [initialSaveNullifier, setInitialSaveNullifier] = useState(0);
+  const [numberOfSaves, setNumberOfSaves] = useState(0);
+  
+  const [mySaveTimer, setMySaveTimer] = useState(0);
+  const saveTimerLength = 9000;
+
+  const clearSaveTimer = () => {
+    clearTimeout(mySaveTimer);
+  }
+
+  // Auto saves the page after the specified length
+  const startSaveTimer = () => {
+    clearTimeout(mySaveTimer);
+    setMySaveTimer( setTimeout( () => {
+      SaveChanges();
+    }, saveTimerLength) );
+  }
+
+  const handleState = (info) => {
+
+    console.log('COMBAT HANDLE STATE CALLED')
+
+    setFortBase(info.basefort);
+    setReflexBase(info.basereflex);
+    setWillBase(info.basewillmod);
+    setFortMiscMod(info.fortmiscmod);
+    setReflexMiscMod(info.reflexmiscmod);
+    setWillMiscMod(info.willmiscmod);
+    setStrengthScore(info.strength);
+    setDexterityScore(info.dexterity);
+    setConstitutionScore(info.constitution);
+    setIntelligenceScore(info.intelligence);
+    setWisdomScore(info.wisdom);
+    setCharismaScore(info.charisma);
+    setArmorMod(info.armorbonus);
+    setSizeMod(info.armorsizemod);
+    setAcMiscMod(info.armormiscmod);
+    setBaseAttackBonus(baseAttackBonus);
+    setMeleeAttackMiscMod(info.meleemiscmod);
+    setRangedAttackMiscMod(info.rangedmiscmod);
+    setTouchMiscMod(info.touchmiscmod);
+    setFlatFootedMiscMod(info.flatfootedmiscmod);
+    setMaxHealth(info.totalhealth);
+    setDamageTaken(info.damagetaken);
+    setHitDice(info.hitdice);
+    setInitiativeMiscMod(info.initiativemiscmod);
+    setSpeed(info.movementspeed);
+    setDamageReduction(info.damagereduction);
+
+    //damageTaken, flatFootedMiscMod, touchMiscMod are missing from db
+  };
+
+  // Update the state of this page when the heroInfo state variable inside of CharacterSheet.js changes
+   useEffect(() => {
+     handleState(props.heroStats);
+   }, [props.heroStats]);
+
+  //Start the save timer when this page's state variables change
+  useEffect(()=>{ 
+    setInitialSaveNullifier( initialSaveNullifier + 1);
+    if (initialSaveNullifier > 2) {
+      setChangesDetected(true);
+      startSaveTimer();               
+    }
+  }, [
+  fortBase,reflexBase,willBase,fortMiscMod,reflexMiscMod,willMiscMod,strengthScore,dexterityScore,constitutionScore,
+  intelligenceScore,wisdomScore,charismaScore,armorMod,sizeMod,acMiscMod,baseAttackBonus,meleeAttackMiscMod,rangedAttackMiscMod,
+  touchMiscMod,flatFootedMiscMod,maxHealth,damageTaken,hitDice,initiativeMiscMod,speed,damageReduction
+  ]);
+
+  // If changes were detected update the character info in the database
+  const SaveChanges = () => {
+    if (changesDetected) {
+      setNumberOfSaves(numberOfSaves + 1); 
+      setChangesDetected(false);
+      updateHeroStats();
+      console.log('saved 4 real')
+    } else {
+      console.log('Did not save: no changes detected')
+    }
+  }
+
+  const updateHeroStats = async () => {
+    fetch("https://tabletophero.herokuapp.com/hero_stats/", {
+      method: "post",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        hero_id: props.heroId,
+        strength: strengthScore,
+        dexterity: dexterityScore,
+        constitution: constitutionScore,
+        charisma: charismaScore,
+        wisdom: wisdomScore,
+        intelligence: intelligenceScore,
+        totalhealth: maxHealth,
+        damagetaken: damageTaken,
+        hitdice: hitDice,
+        damagereduction: damageReduction,
+        baseac: 0,
+        armorbonus: armorMod,
+        armorsizemod: 0,
+        armormiscmod: acMiscMod,
+        touchmiscmod: touchMiscMod,
+        flatfootedmiscmod: flatFootedMiscMod,
+        baseattackbonus: baseAttackBonus,
+        attacksizemod: 0,
+        meleemiscmod: meleeAttackMiscMod,
+        rangedmiscmod: rangedAttackMiscMod,
+        basefort: fortBase,
+        fortmiscmod: fortMiscMod,
+        basereflex: reflexBase,
+        reflexmiscmod: reflexMiscMod,
+        basewillmod: willBase,
+        willmiscmod: willMiscMod,
+        initiativemiscmod: initiativeMiscMod,
+        movementspeed: speed
+      })
+      })
+      .then(response => response.json())
+      .then(res => {
+        props.setHeroStats(res[0])
+      })
+  }; 
+
 
   const CleanUpModifierNumber = (n) => {
     if (n > 0) {
@@ -355,6 +467,7 @@ const HeroCombatPage = (props) => {
       </SectionWrapper>
       </Column>
         {/* combat speed */}
+        <Column>
       <SectionWrapper>
         <h1>Combat Speed</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
@@ -381,10 +494,17 @@ const HeroCombatPage = (props) => {
           propertyValue1 = {speed}
         />
       </SectionWrapper>
+      </Column>
       </Grid>
-
-      
       </Row>
+
+      <Button className='saveButton' color={changesDetected ? Colors.secondary : '#A9A9A9'}
+        onClick={()=>{
+          setChangesDetected(true); clearSaveTimer(); SaveChanges();
+          }}>
+        {changesDetected ? 'save' : 'saved'}
+      </Button>
+      <p>auto saving {saveTimerLength / 1000} seconds after changes detected</p>
     </HeroPageWrapper>
   );
 }

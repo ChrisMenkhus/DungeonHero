@@ -1,11 +1,9 @@
-import React from 'react';
 import styled from 'styled-components';
-import {background_dark} from '../Colors.js'
 
 const Grid = styled.div`
   display: flex;
   flex-wrap: wrap;
-  height: auto;
+  height: 100%;
   width: auto;
   justify-content: ${props => props.justify ? props.justify : 'center'};
   align-content: center;

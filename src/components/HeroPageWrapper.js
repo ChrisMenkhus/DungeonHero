@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import * as Colors from '../Colors.js'
 
 
 const HeroPageWrapper = styled.div`
@@ -9,13 +8,16 @@ const HeroPageWrapper = styled.div`
   justify-content: center;
   margin-top: 0rem;
   background-color: ${props => props.color ? props.color : 'blue'};
+
+  padding-bottom: 5rem;
+
   h4 {
     text-align: center; 
     text-indent: 1rem;
     border-bottom: 1px solid white;
     width: 60vw;
     margin: auto auto auto auto;
-    padding-top: 0.2rem;
+    padding-top: 1rem;
     margin-bottom: 0.5rem;
     font-size: 1rem;
     height: 2.1rem;
@@ -30,6 +32,13 @@ const HeroPageWrapper = styled.div`
     padding: 0.2rem; 
     margin-top: 1rem;
     width: 8rem;
+  }
+
+  p {
+    margin: auto;
+    text-align: center;
+    font-size: 0.5rem;
+    padding: 0px;
   }
 `;
 

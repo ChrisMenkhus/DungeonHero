@@ -27,7 +27,7 @@ const CharacterSheetNav = styled.div`
   width: 100%;
   margin: 0px auto 2rem auto;
   min-height: 2.5rem;
-  background-color: ${Colors.background_verydark};  
+  background-color: ${Colors.secondary};  
   -webkit-box-shadow: 0px 5px 11px -4px #000000; 
   box-shadow: 0px 5px 11px -4px #000000;
   display: flex;
@@ -70,34 +70,88 @@ const CharacterSheetNav = styled.div`
   }
 `;
 
+
+
+
 const CharacterSheet = (props) => {
   const [heroInfo, setHeroInfo] = useState([]);
+  const [heroStats, setHeroStats] = useState([]);
+
   const [page, setPage] = useState('details');
   const paramsId = props.match.params.id;
   const mainHeroId = props.heroId;
 
+  // const [switchingPage, setSwitchingPage] = useState(false);
+  // const [switchingDetailsPage, setSwitchingDetailsPage] = useState(false);
+  // const [switchingCombatPage, setSwitchingCombatPage] = useState(false);
+  // const [switchingEquipmentPage, setSwitchingEquipmentPage] = useState(false);
+  // const [switchingSkillsPage, setSwitchingSkillsPage] = useState(false);
+
+
+  const switchPages = (newPage) => {
+
+    if (page === 'details') {
+      // setSwitchingDetailsPage(true);
+      // console.log('switching to ' + newPage + ' from details')
+      setPage(newPage);
+    } else if (page === 'combat') {
+      // setSwitchingCombatPage(true);
+      // console.log('switching to ' + newPage + ' from combat')
+      setPage(newPage);
+    } else if (page === 'equipment') {
+      // setSwitchingEquipmentPage(true);
+      // console.log('switching to ' + newPage + ' from equipment')
+      setPage(newPage);
+    } else if (page === 'skills') {
+      // setSwitchingSkillsPage(true);
+      // console.log('switching to ' + newPage + ' from skills')
+      setPage(newPage);
+    }
+
+    
+  }
+
   useEffect(() => {
     const GetHeroInfo = async (heroId) => {
-      console.log('ERERKJKJER HERO ID = ' + heroId)
       fetch(("https://tabletophero.herokuapp.com/hero_info/" + heroId), {
         method: "get",
         headers: { "Content-type": "application/json" }
       })
       .then(response => response.json())
       .then(res => {
-        console.log(res);
+        console.log('the response is :')
+        console.log(res)
         if (res) {
           setHeroInfo(res);          
         }
-      });
+      })
+      .catch(error => console.log(error));
     };
+
+    const GetHeroStats = async (heroId) => {
+      fetch(("https://tabletophero.herokuapp.com/hero_stats/" + heroId), {
+        method: "get",
+        headers: { "Content-type": "application/json" }
+      })
+      .then(response => response.json())
+      .then(res => {
+        console.log('the response is :')
+        console.log(res)
+        if (res) {
+          setHeroStats(res);          
+        }
+      })
+      .catch(error => console.log(error));
+    };
+
+    if (mainHeroId.length > 1) {
     GetHeroInfo(mainHeroId);
+    GetHeroStats(mainHeroId);  
+    }
   }, [mainHeroId]);
 
    useEffect(() => {
       if (mainHeroId === '') {
-        console.log('USING PARAMS TO FETCH CHARACTER SHEET')
-        console.log('user logged on = ' + props.userId)
         props.setHeroId(paramsId)      
         // ^^ giving me that error 
       }
@@ -107,45 +161,43 @@ const CharacterSheet = (props) => {
 
   return (
     <CharacterSheetWrapper>
+      <div>
+        {
+          page === 'actions' ? 
+          <HeroActionsPage /> :
+          page === 'details' ? 
+          <HeroDetailsPage userId={props.userId} heroInfo={heroInfo} setHeroInfo={setHeroInfo} heroId={props.heroId}/> 
+          :
+          page === 'combat' ? 
+          <HeroCombatPage userId={props.userId} heroStats={heroStats} setHeroStats={setHeroStats} heroId={props.heroId}/> :
+          page === 'equipment' ? 
+          <HeroWeaponsPage/> :
+          null
+        } 
+      </div>
 
-        <HeroDetailsPage userId={props.userId} heroInfo={heroInfo} heroId={props.heroId} /> 
-        <HeroCombatPage/> 
-
-       { // }
-        //   page === 'actions' ? 
-        //   <HeroActionsPage /> :
-        //   page === 'details' ? 
-        //   <HeroDetailsPage userId={props.userId} heroInfo={heroInfo} heroId={props.heroId} /> :
-        //   page === 'combat' ? 
-        //   <HeroCombatPage/> :
-        //   page === 'equipment' ? 
-        //   <HeroWeaponsPage/> :
-        //   null
-        // }
-      }  
-
-        {/* <CharacterSheetNav> */}
-        {/*   <div className={page === 'actions' ? 'active item' : 'item'} onClick={()=>{ setPage('actions') }}> */}
-        {/*     <img src={details} alt='actions page'/> */}
-        {/*     <h1>Actions</h1> */}
-        {/*   </div> */}
-        {/*   <div className={page === 'details' ? 'active item' : 'item'} onClick={()=>{ setPage('details') }}> */}
-        {/*     <img src={details} alt='details page'/> */}
-        {/*     <h1>Details</h1> */}
-        {/*   </div> */}
-        {/*   <div className={page === 'combat' ? 'active item' : 'item'} onClick={()=>{ setPage('combat') }}> */}
-        {/*     <img src={combat} alt='combat page'/> */}
-        {/*     <h1>Combat</h1>       */}
-        {/*   </div> */}
-        {/*   <div className={page === 'equipment' ? 'active item' : 'item'} onClick={()=>{ setPage('equipment') }}> */}
-        {/*     <img src={equipment} alt='equipment page'/> */}
-        {/*     <h1>Equipment</h1> */}
-        {/*   </div> */}
-        {/*   <div className={page === 'skills' ? 'active item' : 'item'} onClick={()=>{ setPage('skills') }}> */}
-        {/*     <img src={skills} alt='skills page'/> */}
-        {/*     <h1>Skills</h1> */}
-        {/*   </div> */}
-        {/* </CharacterSheetNav> */}
+        <CharacterSheetNav>
+          {/* <div className={page === 'actions' ? 'active item' : 'item'} onClick={()=>{ setSwitchingPage(true); setPage('actions');  }}> */}
+          {/*   <img src={details} alt='actions page'/> */}
+          {/*   <h1>Actions</h1> */}
+          {/* </div> */}
+          <div className={page === 'details' ? 'active item' : 'item'} onClick={()=>{ switchPages('details') }}>
+            <img src={details} alt='details page'/>
+            <h1>Details</h1>
+          </div>
+          <div className={page === 'combat' ? 'active item' : 'item'} onClick={()=>{ switchPages('combat') }}>
+            <img src={combat} alt='combat page'/>
+            <h1>Combat</h1>      
+          </div>
+          <div className={page === 'equipment' ? 'active item' : 'item'} onClick={()=>{ switchPages('equipment') }}>
+            <img src={equipment} alt='equipment page'/>
+            <h1>Equipment</h1>
+          </div>
+          <div className={page === 'skills' ? 'active item' : 'item'} onClick={()=>{ switchPages('skills') }}>
+            <img src={skills} alt='skills page'/>
+            <h1>Skills</h1>
+          </div>
+        </CharacterSheetNav>
 
     </CharacterSheetWrapper>
   );

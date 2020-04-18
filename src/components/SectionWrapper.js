@@ -5,7 +5,8 @@ const SectionWrapper = styled.section`
   display: flex;
   flex-direction: column;
   padding-bottom: 1rem;
-  margin: 0.2rem 0.2rem auto 0.2rem;
+  margin: 0.2rem 0.5rem 0.5rem 0.2rem;
+  margin: 0.5rem;
   background-color: ${props => props.bgColor ? props.bgColor : '#1B1E1C'};
   max-width: 14rem;
   width: 14rem;

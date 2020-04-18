@@ -1,5 +1,7 @@
 const primary = '#F8F8F8';
+const secondary2 = '#16CB9A';
 const secondary = '#05386B';
+
 const background_dark = '#5cdb95';
 const background_light = '#E5E5E5';
 const background_verydark = '#222831';

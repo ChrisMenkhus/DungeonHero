@@ -2,14 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import {background_superdark, background_verydark, label_red, secondary} from '../Colors.js'
 import Button from '../components/Button.js'
-
 import bg from '../images/bg.jpg'
-
-const Home = (props) => {
 
 const Style = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 80vh;
   background-color: ${background_superdark};
   background-color: #111111;
   text-align: center;
@@ -19,15 +16,9 @@ const Style = styled.div`
   background-size: cover;
   background-attachment: fixed;
 
-  .bigButton {
-
-
-  }
-
-
 
   .messyButtonContainer {
-    margin: 0px; padding: 0px;
+    margin: auto; padding: 0px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -57,7 +48,7 @@ const Style = styled.div`
 
   .head {
     padding-top: 4rem;
-    height: 40vh;
+    height: auto;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -106,7 +97,7 @@ const Style = styled.div`
   margin-top: auto; margin-bottom: auto;
   .siteStatus {
     margin: auto;
-    margin-top: 2rem;
+    padding-top: 2rem;
     span {
       color: ${secondary}; 
       font-weight: lighter;
@@ -184,6 +175,8 @@ const Style = styled.div`
   
 `;
 
+const Home = (props) => {
+
   return (
     <Style>
       <section className='head'>
@@ -194,14 +187,18 @@ const Style = styled.div`
           Become a
           <span>hero</span>   
           <span>wizard</span>
-          <span>fighter</span>
+          <span>master</span>
           <span>god</span>
-          <span>BBEG</span>
+          <span>legend</span>
         </h1>   
+        {!props.loggedIn ? 
         <div className='messyButtonContainer'>
           <Button className='bigButton' onClick={()=>{props.setRedirectPath('/register')}} >Begin Journey</Button>
           <Button className='bigButton loginButton' onClick={()=>{props.setRedirectPath('/login')}} >Login</Button>
-        </div>
+        </div> : 
+        <div className='messyButtonContainer'>
+          <Button className='bigButton red' onClick={()=>{props.setRedirectPath('/heroes')}} >My Heroes</Button>
+        </div> }
       </section>
 
       <section className='siteInfo'>

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import * as Colors from '../Colors.js'
-import Button from './Button.js'
 
 const Container = styled.div`
     margin: 0.2rem;
@@ -33,7 +32,7 @@ const Container = styled.div`
       background-color: ${Colors.primary};
     }
     .properties {
-      border: 0.5px solid #2B2B2B;
+      border: 0.5px solid ${Colors.secondary};
 
       display: flex;
       flex-direction: column;
@@ -109,7 +108,6 @@ const OnInputChange = (t, isNumber=null) => {
 
 const keyPress = (e, toggleCollapsed) => {
     if(e.keyCode === 13){
-       console.log('value', e.target.value);
        toggleCollapsed(true);
     }
   }

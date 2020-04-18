@@ -32,21 +32,23 @@ const Navbar = styled.nav`
 
     .navItem {   
       margin: 0px; 
-      margin-left: 1rem;
+      margin-left: 0.5rem;
       margin-right: 0rem;
       padding:0px; 
       display: inline;
       width: auto;
-      border-bottom: 2px solid white;
+      margin-top: 0.2rem;
+      /*border-bottom: 2px solid white;*/
     }  
 
     .navItem:hover {
-      border-bottom: 4px solid ${secondary};
+      /*border-bottom: 4px solid ${secondary};*/
     }
     .right {
       display: inline;
       width: auto;
       margin: 0px;
+
       margin-left: auto;
       float: right;
       margin-right: 1rem;
@@ -54,8 +56,14 @@ const Navbar = styled.nav`
 
     .title {
       font-size: 20px;
+      margin: 0px;
+      margin-left: 1rem;
       border-bottom: 0px;
       color: ${secondary};
+      padding-right: 0.5rem;
+      
+      border-right: ${props => props.loggedIn ? '1px solid white' : null };
+      
     }
     .title:hover {
       border-bottom: 0px;

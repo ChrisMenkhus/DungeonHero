@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import styled from 'styled-components'
 import Grid from '../Grid.js'
 import GridItem from '../GridItem.js'
+import GridItemInputField from '../GridItemInputField.js'
 import SectionWrapper from '../SectionWrapper.js'
 import * as Colors from '../../Colors.js'
 import Button from '../Button.js'
@@ -28,10 +28,9 @@ const HeroDetailsPage = (props) => {
   const [size, setSize] = useState('null');
 
   // Reference to the characters info from the database.
-  const heroInfo = props.heroInfo;
+  const [heroInfo, setHeroInfo] = useState();
 
   const [changesDetected, setChangesDetected] = useState();
-  let detectedChanges = false;
 
   const [initialSaveNullifier, setInitialSaveNullifier] = useState(0);
   const [numberOfSaves, setNumberOfSaves] = useState(0);
@@ -72,26 +71,27 @@ const HeroDetailsPage = (props) => {
 
   // Update the state of this page when the heroInfo state variable inside of CharacterSheet.js changes
   useEffect(() => {
-    handleState(heroInfo);
-  }, [heroInfo]);
+      handleState(props.heroInfo);
+  }, [props.heroInfo]);
 
   // Start the save timer when this page's state variables change
   useEffect(()=>{ 
-    setInitialSaveNullifier(initialSaveNullifier + 1);
+    setInitialSaveNullifier( initialSaveNullifier + 1);
     if (initialSaveNullifier > 2) {
-      detectedChanges = true;
-      setChangesDetected(detectedChanges);
+      //detectedChanges = true;
+      setChangesDetected(true);
       startSaveTimer();               
     }
   }, [characterName, race, heroClass, level, alignment, age, gender, deity, height, weight, eyes, hair, looks, about]);
   
   // If changes were detected update the character info in the database
   const SaveChanges = () => {
-    if (detectedChanges) {
+    if (changesDetected) {
       setNumberOfSaves(numberOfSaves + 1); 
-      detectedChanges = false; 
-      setChangesDetected(detectedChanges);
+      //detectedChanges = false; 
+      setChangesDetected(false);
       updateHeroInfo();
+      console.log('saved 4 real')
     } else {
       console.log('Did not save: no changes detected')
     }
@@ -121,7 +121,11 @@ const HeroDetailsPage = (props) => {
         about: about
 
       })
-    })
+      })
+      .then(response => response.json())
+      .then(res => {
+        props.setHeroInfo(res[0])
+      })
   }; 
 
   return (
@@ -186,6 +190,26 @@ const HeroDetailsPage = (props) => {
           startSaveTimer={startSaveTimer}
         />
       </SectionWrapper>   
+
+      <SectionWrapper color='white'>
+        <h1>Description</h1>
+        <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
+        <GridItemInputField derivativeLabel = 'About'
+          derivativeValue = {about}
+          derivativeFrom = {1}
+
+          propertyLabel1 = {null}
+          propertyHandler1 = {setAbout}
+          propertyValue1 = {about}
+          isNumber1= {false}
+        />
+      </SectionWrapper>
+
+      </Grid>     
+      </Row>
+
+      <Row>
+      <Grid justify='center'>
 
       <SectionWrapper color='white'>
         <h1>Roleplay Info</h1>
@@ -262,15 +286,16 @@ const HeroDetailsPage = (props) => {
         />
       </SectionWrapper>
 
-      </Grid>     
+      </Grid>
       </Row>
 
       <Button className='saveButton' color={changesDetected ? Colors.secondary : '#A9A9A9'}
         onClick={()=>{
-          detectedChanges=true; setChangesDetected(detectedChanges); clearSaveTimer(); SaveChanges();
+          setChangesDetected(true); clearSaveTimer(); SaveChanges();
           }}>
         {changesDetected ? 'save' : 'saved'}
       </Button>
+      <p>auto saving {saveTimerLength / 1000} seconds after changes detected</p>
 
     </HeroPageWrapper>
   );

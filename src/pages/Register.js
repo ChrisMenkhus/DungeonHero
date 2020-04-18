@@ -1,11 +1,11 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import Button from '../components/Button.js'
-import {background_superdark as background_verydark, label_red, secondary} from '../Colors.js'
+import {background_superdark as background_verydark, secondary} from '../Colors.js'
 
 
 const Style = styled.div`
-    height: 100vh;
+    height: 80vh;
     background-color: ${background_verydark};
     h1 {
       text-align: center;
@@ -39,7 +39,7 @@ const Style = styled.div`
       margin: auto;
       margin-left: auto; margin-right: auto;
       background-color: ${secondary};
-      color: ${background_verydark};
+      color: white;
       -ms-transform: skewX(-20deg);
       -webkit-transform: skewX(-20deg);
       transform: skewX(-20deg);
@@ -111,7 +111,7 @@ const Register = props => {
           <Wrapper>
             <label>name</label>
             <Wrapper>
-              <input type="text" onChange={(e)=>{setEmail(e.target.value)}}></input>
+              <input type="text" onChange={(e)=>{setName(e.target.value)}}></input>
             </Wrapper>
             <label>email</label>
             <Wrapper>

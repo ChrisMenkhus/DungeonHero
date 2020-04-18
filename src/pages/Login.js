@@ -1,14 +1,14 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import Button from '../components/Button.js'
-import {background_superdark, background_verydark, label_red, secondary} from '../Colors.js'
+import {background_superdark, secondary} from '../Colors.js'
 
 
 
 
 
 const Style = styled.div`
-    height: 100vh;
+    height: 80vh;
     background-color: ${background_superdark};
     h1 {
       text-align: center;
@@ -42,7 +42,7 @@ const Style = styled.div`
       margin: auto;
       margin-left: auto; margin-right: auto;
       background-color: ${secondary};
-      color: ${background_superdark};
+      color: white;
       -ms-transform: skewX(-20deg);
       -webkit-transform: skewX(-20deg);
       transform: skewX(-20deg);
@@ -90,15 +90,14 @@ const Login = props => {
   })
   .then(response => response.json())
   .then(user => {
-    console.log(user);
     if (user.user_id) {
       setErrorText('logged in');
       props.setLoggedIn(true);
       props.setUserId(user.user_id);  
       props.setRedirectPath("/heroes");  
     }
-    else {
-      console.log(user);
+    else if (user === 'error') {
+      setErrorText('information not valid.');
       //setErrorText(user);
     }
 

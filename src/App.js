@@ -55,7 +55,9 @@ const NavStyle = styled.div`
   z-index: 3;
 
   .myTitle {
+    color: #0054A9;
     color: ${Colors.secondary};
+    
     font-weight: bolder;
   }
 `;
@@ -94,7 +96,7 @@ const Nav = (props) => {
           <NavbarMobile navToggled={navToggled}>
             <ul>
             <li className='navItem title'>
-              <StyledLink exact={true} to='/' onClick={()=>{setNavToggled(false)}}>
+              <StyledLink exact to='/' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}>
               TableTopHero</StyledLink>
             </li>
             {/* <li className='navItem'> */}
@@ -103,15 +105,15 @@ const Nav = (props) => {
             {/* </li> */}
             {props.loggedIn ? 
             <li className='navItem'>
-              <StyledLink to='/heroes' activeClassName='active' onClick={()=>{setNavToggled(false)}}>
+              <StyledLink exact to='/heroes' activeClassName='active' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}>
               Heroes</StyledLink>
             </li> :
             <li className='navItem'>
-              <StyledLink to='/register' activeClassName='active' onClick={()=>{setNavToggled(false)}}>
+              <StyledLink exact to='/register' activeClassName='active' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}>
               Register</StyledLink> 
             </li> }
             <li className='navItem'>
-              <StyledLink to='/login' activeClassName='active' onClick={()=>{setNavToggled(false); props.setLoggedIn(false); props.setRedirectPath('/home')}}>
+              <StyledLink exact to='/login' activeClassName='active' onClick={()=>{setNavToggled(false); props.setLoggedIn(false); props.setRedirectPath('/home')}}>
               {props.loggedIn ? 'Logout' : 'Login'}</StyledLink>
             </li>
             </ul>
@@ -120,11 +122,11 @@ const Nav = (props) => {
       />
       <Media query={{ minWidth: 620 }} 
         render={ ()=>(
-          <Navbar>
+          <Navbar loggedIn={props.loggedIn}>
             <ul>
             <li className='navItem title'>
-              <StyledLink exact={true} to='/' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}>
-              <span class='myTitle'>TableTopHero</span></StyledLink>
+              <StyledLink exact to='/' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}>
+              <span className='myTitle'>TableTopHero</span></StyledLink>
             </li>
             {/* <li className='navItem'> */}
             {/*   <StyledLink exact to='/' activeClassName='active' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}> */}
@@ -132,7 +134,7 @@ const Nav = (props) => {
             {/* </li> */}
             {props.loggedIn ? 
             <li className='navItem'>
-              <StyledLink to='/heroes' activeClassName='active' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}>
+              <StyledLink exact activeClassName='active' to='/heroes' onClick={()=>{setNavToggled(false); props.setRedirectPath('')}}>
               Heroes</StyledLink>
             </li>
               : null }
@@ -142,7 +144,7 @@ const Nav = (props) => {
             {/*   Register</StyledLink>  */}
             {/* </li>  */}
             <li className='navItem right'>
-              <StyledLink to='/login' activeClassName='active' onClick={()=>{setNavToggled(false); props.setLoggedIn(false); props.setRedirectPath('/home') }}>
+              <StyledLink exact activeClassName='active' to='/login' onClick={()=>{setNavToggled(false); props.setLoggedIn(false); props.setRedirectPath('/home') }}>
               {props.loggedIn ? 'Logout' : 'Login'}</StyledLink>
             </li>
             </ul>
@@ -175,7 +177,6 @@ const App = () => {
         redirectPath === '/register' ?
         <Redirect to='/register'/> : null
       }
-
       <Switch>
         <Route path="/login">
           <Login setUserId={setUserId} setRedirectPath={setRedirectPath} setLoggedIn={setLoggedIn} />
@@ -197,7 +198,7 @@ const App = () => {
           <Test />
         </Route>
         <Route path="/">
-          <Home setRedirectPath={setRedirectPath} />
+          <Home setRedirectPath={setRedirectPath} loggedIn={loggedIn}/>
         </Route>
       </Switch>
 
