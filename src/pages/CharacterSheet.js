@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
-import * as Colors from '../Colors.js'
+import {background_primary, background_secondary, background_tertiary, accent, interactive} from '../Colors.js'
 import HeroCombatPage from '../components/heropages/HeroCombatPage.js'
 import HeroDetailsPage from '../components/heropages/HeroDetailsPage.js'
-import HeroWeaponsPage from '../components/heropages/HeroWeaponsPage.js'
+import HeroEquipmentPage from '../components/heropages/HeroEquipmentPage.js'
 import HeroActionsPage from '../components/heropages/HeroActionsPage.js'
 import combat from '../images/combat.svg';
 import details from '../images/details.svg';
@@ -14,7 +14,7 @@ import skills from '../images/skills.svg';
 const CharacterSheetWrapper = styled.div` width: auto;
   min-height: 100vh;
   height: auto;
-  background-color: ${'##2E2E2E'};
+  background-color: ${background_primary};
   @media only screen and (max-width: 620px) {
   padding: 0rem 0px;
   padding-bottom: 2rem;
@@ -27,7 +27,7 @@ const CharacterSheetNav = styled.div`
   width: 100%;
   margin: 0px auto 2rem auto;
   min-height: 2.5rem;
-  background-color: ${Colors.secondary};  
+  background-color: ${interactive};  
   -webkit-box-shadow: 0px 5px 11px -4px #000000; 
   box-shadow: 0px 5px 11px -4px #000000;
   display: flex;
@@ -65,7 +65,7 @@ const CharacterSheetNav = styled.div`
       border-width: 4px;
     }
     img {
-      fill: ${Colors.label_blue};
+   
     }
   }
 `;
@@ -77,16 +77,17 @@ const CharacterSheet = (props) => {
   const [heroInfo, setHeroInfo] = useState([]);
   const [heroStats, setHeroStats] = useState([]);
 
-  const [page, setPage] = useState('details');
+  const [page, setPage] = useState('combat');
   const paramsId = props.match.params.id;
   const mainHeroId = props.heroId;
 
-  // const [switchingPage, setSwitchingPage] = useState(false);
-  // const [switchingDetailsPage, setSwitchingDetailsPage] = useState(false);
-  // const [switchingCombatPage, setSwitchingCombatPage] = useState(false);
-  // const [switchingEquipmentPage, setSwitchingEquipmentPage] = useState(false);
-  // const [switchingSkillsPage, setSwitchingSkillsPage] = useState(false);
+  const [editModeEnabled, setEditModeEnabled] = useState(props.loggedIn);
 
+  useEffect(()=>{
+
+      setEditModeEnabled(props.loggedIn);
+    
+  }, [props.loggedIn])
 
   const switchPages = (newPage) => {
 
@@ -152,8 +153,10 @@ const CharacterSheet = (props) => {
 
    useEffect(() => {
       if (mainHeroId === '') {
-        props.setHeroId(paramsId)      
+        props.setHeroId(paramsId);     
         // ^^ giving me that error 
+        //setEditModeEnabled(false);
+        console.log('SETTING EDIT MODE ENABLED TO FALSE')
       }
    }, [paramsId]);
 
@@ -166,12 +169,12 @@ const CharacterSheet = (props) => {
           page === 'actions' ? 
           <HeroActionsPage /> :
           page === 'details' ? 
-          <HeroDetailsPage userId={props.userId} heroInfo={heroInfo} setHeroInfo={setHeroInfo} heroId={props.heroId}/> 
+          <HeroDetailsPage editModeEnabled={editModeEnabled} userId={props.userId} heroInfo={heroInfo} setHeroInfo={setHeroInfo} heroId={props.heroId}/> 
           :
           page === 'combat' ? 
-          <HeroCombatPage userId={props.userId} heroStats={heroStats} setHeroStats={setHeroStats} heroId={props.heroId}/> :
+          <HeroCombatPage editModeEnabled={editModeEnabled} userId={props.userId} heroStats={heroStats} setHeroStats={setHeroStats} heroId={props.heroId}/> :
           page === 'equipment' ? 
-          <HeroWeaponsPage/> :
+          <HeroEquipmentPage editModeEnabled={editModeEnabled} userId={props.userId} heroStats={heroStats} setHeroStats={setHeroStats} heroId={props.heroId}/> :
           null
         } 
       </div>

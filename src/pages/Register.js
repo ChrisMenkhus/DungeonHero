@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import Button from '../components/Button.js'
-import {background_superdark as background_verydark, secondary} from '../Colors.js'
+import {background_superdark as background_verydark, interactive} from '../Colors.js'
 
 
 const Style = styled.div`
@@ -38,11 +38,9 @@ const Style = styled.div`
     button {
       margin: auto;
       margin-left: auto; margin-right: auto;
-      background-color: ${secondary};
+      background-color: ${interactive};
       color: white;
-      -ms-transform: skewX(-20deg);
-      -webkit-transform: skewX(-20deg);
-      transform: skewX(-20deg);
+      border-left: 3px solid white;
       border-radius: 0px;
     }
     }

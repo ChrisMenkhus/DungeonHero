@@ -1,10 +1,20 @@
+const background_primary = '#111111';
+const background_secondary = '#232323'
+const background_tertiary = '#FFFFFA'
+const interactive = '#FE1244';
+const accent = '#6320EE';
+
+
+
 const primary = '#F8F8F8';
 const secondary2 = '#16CB9A';
-const secondary = '#05386B';
+// const secondary = '#05386B';
+const secondary = '#CC0CE9';
+
 
 const background_dark = '#5cdb95';
 const background_light = '#E5E5E5';
-const background_verydark = '#222831';
+const background_verydark = '#182130';
 const background_superdark = '#111111';
 
 const white = '#F7F7F7';
@@ -36,5 +46,11 @@ export {
 	label_yellow,
 	label_orange,
 	label_red,
-	label_purple
+	label_purple,
+
+	background_primary,
+	interactive,
+	accent,
+	background_secondary,
+	background_tertiary
 }

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 import Grid from '../Grid.js'
 import GridItem from '../GridItem.js'
+import GridItemStylized from '../GridItemStylized.js'
 import SectionWrapper from '../SectionWrapper.js'
 import * as Colors from '../../Colors.js'
 import combat from '../../images/combat.svg';
@@ -50,6 +51,8 @@ const HeroCombatPage = (props) => {
   const [speed, setSpeed] = useState(30);
   const [damageReduction, setDamageReduction] = useState(0);
 
+  const [editModeEnabled, setEditModeEnabled] = useState(props.editModeEnabled);
+
   // Reference to the characters info from the database.
   const [heroInfo, setHeroInfo] = useState();
 
@@ -77,32 +80,34 @@ const HeroCombatPage = (props) => {
 
     console.log('COMBAT HANDLE STATE CALLED')
 
-    setFortBase(info.basefort);
-    setReflexBase(info.basereflex);
-    setWillBase(info.basewillmod);
-    setFortMiscMod(info.fortmiscmod);
-    setReflexMiscMod(info.reflexmiscmod);
-    setWillMiscMod(info.willmiscmod);
-    setStrengthScore(info.strength);
-    setDexterityScore(info.dexterity);
-    setConstitutionScore(info.constitution);
-    setIntelligenceScore(info.intelligence);
-    setWisdomScore(info.wisdom);
-    setCharismaScore(info.charisma);
-    setArmorMod(info.armorbonus);
-    setSizeMod(info.armorsizemod);
-    setAcMiscMod(info.armormiscmod);
-    setBaseAttackBonus(baseAttackBonus);
-    setMeleeAttackMiscMod(info.meleemiscmod);
-    setRangedAttackMiscMod(info.rangedmiscmod);
-    setTouchMiscMod(info.touchmiscmod);
-    setFlatFootedMiscMod(info.flatfootedmiscmod);
-    setMaxHealth(info.totalhealth);
-    setDamageTaken(info.damagetaken);
-    setHitDice(info.hitdice);
-    setInitiativeMiscMod(info.initiativemiscmod);
-    setSpeed(info.movementspeed);
-    setDamageReduction(info.damagereduction);
+    setEditModeEnabled(props.editModeEnabled);
+
+    setFortBase(info.basefort || 0);
+    setReflexBase(info.basereflex || 0);
+    setWillBase(info.basewillmod || 0);
+    setFortMiscMod(info.fortmiscmod || 0);
+    setReflexMiscMod(info.reflexmiscmod || 0);
+    setWillMiscMod(info.willmiscmod || 0);
+    setStrengthScore(info.strength || 0);
+    setDexterityScore(info.dexterity || 0);
+    setConstitutionScore(info.constitution || 0);
+    setIntelligenceScore(info.intelligence || 0);
+    setWisdomScore(info.wisdom || 0);
+    setCharismaScore(info.charisma || 0);
+    setArmorMod(info.armorbonus || 0);
+    setSizeMod(info.armorsizemod || 0);
+    setAcMiscMod(info.armormiscmod || 0);
+    setBaseAttackBonus(info.baseattackbonus || 0);
+    setMeleeAttackMiscMod(info.meleemiscmod || 0);
+    setRangedAttackMiscMod(info.rangedmiscmod || 0);
+    setTouchMiscMod(info.touchmiscmod || 0);
+    setFlatFootedMiscMod(info.flatfootedmiscmod || 0);
+    setMaxHealth(info.totalhealth || 0);
+    setDamageTaken(info.damagetaken || 0);
+    setHitDice(info.hitdice || 0);
+    setInitiativeMiscMod(info.initiativemiscmod || 0);
+    setSpeed(info.movementspeed || 0);
+    setDamageReduction(info.damagereduction || 0);
 
     //damageTaken, flatFootedMiscMod, touchMiscMod are missing from db
   };
@@ -113,17 +118,17 @@ const HeroCombatPage = (props) => {
    }, [props.heroStats]);
 
   //Start the save timer when this page's state variables change
-  useEffect(()=>{ 
-    setInitialSaveNullifier( initialSaveNullifier + 1);
-    if (initialSaveNullifier > 2) {
-      setChangesDetected(true);
-      startSaveTimer();               
-    }
-  }, [
-  fortBase,reflexBase,willBase,fortMiscMod,reflexMiscMod,willMiscMod,strengthScore,dexterityScore,constitutionScore,
-  intelligenceScore,wisdomScore,charismaScore,armorMod,sizeMod,acMiscMod,baseAttackBonus,meleeAttackMiscMod,rangedAttackMiscMod,
-  touchMiscMod,flatFootedMiscMod,maxHealth,damageTaken,hitDice,initiativeMiscMod,speed,damageReduction
-  ]);
+  // useEffect(()=>{ 
+  //   setInitialSaveNullifier( initialSaveNullifier + 1);
+  //   if (initialSaveNullifier > 2) {
+  //     //setChangesDetected(true);
+  //     //startSaveTimer();               
+  //   }
+  // }, [
+  // fortBase,reflexBase,willBase,fortMiscMod,reflexMiscMod,willMiscMod,strengthScore,dexterityScore,constitutionScore,
+  // intelligenceScore,wisdomScore,charismaScore,armorMod,sizeMod,acMiscMod,baseAttackBonus,meleeAttackMiscMod,rangedAttackMiscMod,
+  // touchMiscMod,flatFootedMiscMod,maxHealth,damageTaken,hitDice,initiativeMiscMod,speed,damageReduction
+  // ]);
 
   // If changes were detected update the character info in the database
   const SaveChanges = () => {
@@ -136,6 +141,15 @@ const HeroCombatPage = (props) => {
       console.log('Did not save: no changes detected')
     }
   }
+
+  const ToggleChangesDetected = (x) => {
+    setChangesDetected(x ? x : !changesDetected);
+  }
+
+  useEffect(() => {
+      if (changesDetected)
+      startSaveTimer(); 
+   }, [changesDetected]);
 
   const updateHeroStats = async () => {
     fetch("https://tabletophero.herokuapp.com/hero_stats/", {
@@ -175,7 +189,7 @@ const HeroCombatPage = (props) => {
       })
       .then(response => response.json())
       .then(res => {
-        props.setHeroStats(res[0])
+        //props.setHeroStats(res[0])
       })
   }; 
 
@@ -200,63 +214,78 @@ const HeroCombatPage = (props) => {
       <SectionWrapper>
         <h1>Ability Scores</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
-        <GridItem derivativeLabel = 'Strength'
-          derivativeValue = {CleanUpModifierNumber(GetAbilityModifier(strengthScore))}
+        <GridItemStylized derivativeLabel = 'Strength'
+          derivativeValue = {CleanUpModifierNumber(GetAbilityModifier(strengthScore)) + ' (' + strengthScore + ')' }
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'strength score'
           propertyHandler1 = {setStrengthScore}
           propertyValue1 = {strengthScore}
+
         />
-        <GridItem derivativeLabel = 'Dexterity'
-          derivativeValue = {CleanUpModifierNumber(GetAbilityModifier(dexterityScore))}
+        <GridItemStylized derivativeLabel = 'Dexterity'
+          derivativeValue = {CleanUpModifierNumber(GetAbilityModifier(dexterityScore)) + ' (' + dexterityScore + ')' }
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'dexterity score'
           propertyHandler1 = {setDexterityScore}
           propertyValue1 = {dexterityScore}
         />
-        <GridItem derivativeLabel = 'Constitution'
-          derivativeValue = {CleanUpModifierNumber(GetAbilityModifier(constitutionScore))}
+        <GridItemStylized derivativeLabel = 'Constitution'
+          derivativeValue = {CleanUpModifierNumber(GetAbilityModifier(constitutionScore)) + ' (' + constitutionScore + ')' }
           derivativeFrom = {1}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'constitution score'
           propertyHandler1 = {setConstitutionScore}
           propertyValue1 = {constitutionScore}
+          editModeEnabled={editModeEnabled}
         />
-        <GridItem derivativeLabel = 'Intelligence'
-          derivativeValue = {CleanUpModifierNumber(GetAbilityModifier(intelligenceScore))}
+        <GridItemStylized derivativeLabel = 'Intelligence'
+          derivativeValue = {CleanUpModifierNumber(GetAbilityModifier(intelligenceScore)) + ' (' + intelligenceScore + ')' }
           derivativeFrom = {1}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'intelligence score'
           propertyHandler1 = {setIntelligenceScore}
           propertyValue1 = {intelligenceScore}
+          editModeEnabled={editModeEnabled}
         />
-        <GridItem derivativeLabel = 'Wisdom'
-          derivativeValue = {CleanUpModifierNumber(GetAbilityModifier(wisdomScore))}
+        <GridItemStylized derivativeLabel = 'Wisdom'
+          derivativeValue = {CleanUpModifierNumber(GetAbilityModifier(wisdomScore)) + ' (' + wisdomScore + ')' }
           derivativeFrom = {1}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'wisdom score'
           propertyHandler1 = {setWisdomScore}
           propertyValue1 = {wisdomScore}
+          editModeEnabled={editModeEnabled}
         />
-        <GridItem derivativeLabel = 'Charisma'
-          derivativeValue = {CleanUpModifierNumber(GetAbilityModifier(charismaScore))}
+        <GridItemStylized derivativeLabel = 'Charisma'
+          derivativeValue = {CleanUpModifierNumber(GetAbilityModifier(charismaScore)) + ' (' + charismaScore + ')' }
           derivativeFrom = {1}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'charisma score'
           propertyHandler1 = {setCharismaScore}
           propertyValue1 = {charismaScore}
+          editModeEnabled={editModeEnabled}
         />
       </SectionWrapper>
       <Column>
       <SectionWrapper>
         <h1>Health</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
-        <GridItem derivativeLabel = 'Max HP'
+        <GridItemStylized derivativeLabel = 'Max HP'
 
           derivativeValue = {maxHealth}
           derivativeFrom = {2}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'total HP'
           propertyHandler1 = {setMaxHealth}
@@ -266,18 +295,22 @@ const HeroCombatPage = (props) => {
           propertyHandler2 = {setHitDice}
           propertyValue2 = {hitDice}
         />
-        <GridItem derivativeLabel = 'Current HP'
+        <GridItemStylized derivativeLabel = 'Current HP'
 
           derivativeValue = {maxHealth - damageTaken}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'damage taken'
           propertyHandler1 = {setDamageTaken}
           propertyValue1 = {damageTaken}
         />
-        <GridItem derivativeLabel = 'Damage Reduction'
+        <GridItemStylized derivativeLabel = 'Damage Reduction'
           derivativeValue = {damageReduction}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'DR'
           propertyHandler1 = {setDamageReduction}
@@ -288,10 +321,12 @@ const HeroCombatPage = (props) => {
       <SectionWrapper>
         <h1>Armor</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
-        <GridItem derivativeLabel = 'AC'
+        <GridItemStylized derivativeLabel = 'AC'
 
           derivativeValue = {10 + armorMod + GetAbilityModifier(dexterityScore) + sizeMod + acMiscMod}
           derivativeFrom = {5}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'base AC'
           propertyHandler1 = {null}
@@ -313,10 +348,12 @@ const HeroCombatPage = (props) => {
           propertyHandler3 = {setArmorMod}
           propertyValue3 = {armorMod}
         />
-        <GridItem derivativeLabel = 'Touch AC'
+        <GridItemStylized derivativeLabel = 'Touch AC'
 
           derivativeValue = {10 + GetAbilityModifier(dexterityScore) + sizeMod + touchMiscMod}
           derivativeFrom = {4}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'base AC'
           propertyHandler1 = {null}
@@ -334,10 +371,12 @@ const HeroCombatPage = (props) => {
           propertyHandler4 = {setTouchMiscMod}
           propertyValue4 = {touchMiscMod}
         />
-        <GridItem derivativeLabel = 'Flat Footed AC'
+        <GridItemStylized derivativeLabel = 'Flat Footed AC'
 
           derivativeValue = {10 + armorMod + sizeMod + flatFootedMiscMod}
           derivativeFrom = {4}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'base AC'
           propertyHandler1 = {null}
@@ -364,10 +403,12 @@ const HeroCombatPage = (props) => {
       <SectionWrapper>
         <h1>Attack Bonuses</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
-        <GridItem derivativeLabel = 'Melee'
+        <GridItemStylized derivativeLabel = 'Melee'
 
           derivativeValue = {baseAttackBonus + GetAbilityModifier(strengthScore) + sizeMod + meleeAttackMiscMod}
           derivativeFrom = {4}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'base attack bonus'
           propertyHandler1 = {setBaseAttackBonus}
@@ -385,10 +426,12 @@ const HeroCombatPage = (props) => {
           propertyHandler4 = {setMeleeAttackMiscMod}
           propertyValue4 = {meleeAttackMiscMod}
         />
-        <GridItem derivativeLabel = 'Ranged'
+        <GridItemStylized derivativeLabel = 'Ranged'
 
           derivativeValue = {baseAttackBonus + GetAbilityModifier(dexterityScore) + sizeMod + rangedAttackMiscMod}
           derivativeFrom = {4}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'base attack bonus'
           propertyHandler1 = {setBaseAttackBonus}
@@ -411,10 +454,12 @@ const HeroCombatPage = (props) => {
       <SectionWrapper>
         <h1>Saving Throws</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
-        <GridItem derivativeLabel = 'fortitude'
+        <GridItemStylized derivativeLabel = 'fortitude'
 
           derivativeValue = {fortBase + GetAbilityModifier(constitutionScore) + fortMiscMod}
           derivativeFrom = {3}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'base fort'
           propertyHandler1 = {setFortBase}
@@ -429,10 +474,12 @@ const HeroCombatPage = (props) => {
           propertyValue3 = {fortMiscMod}
         />
 
-        <GridItem derivativeLabel = 'reflex'
+        <GridItemStylized derivativeLabel = 'reflex'
 
           derivativeValue = {reflexBase + GetAbilityModifier(dexterityScore) + reflexMiscMod}
           derivativeFrom = {3}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'base reflex'
           propertyHandler1 = {setReflexBase}
@@ -447,10 +494,12 @@ const HeroCombatPage = (props) => {
           propertyValue3 = {reflexMiscMod}
         />
 
-        <GridItem derivativeLabel = 'will'
+        <GridItemStylized derivativeLabel = 'will'
 
           derivativeValue = {willBase + GetAbilityModifier(wisdomScore) + willMiscMod}
           derivativeFrom = {3}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'base will'
           propertyHandler1 = {setWillBase}
@@ -471,10 +520,12 @@ const HeroCombatPage = (props) => {
       <SectionWrapper>
         <h1>Combat Speed</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
-        <GridItem derivativeLabel = 'Initiative'
+        <GridItemStylized derivativeLabel = 'Initiative'
 
           derivativeValue = {GetAbilityModifier(dexterityScore) + initiativeMiscMod}
           derivativeFrom = {2}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'dexterity mod'
           propertyHandler1 = {null}
@@ -484,10 +535,12 @@ const HeroCombatPage = (props) => {
           propertyHandler2 = {setInitiativeMiscMod}
           propertyValue2 = {initiativeMiscMod}
         />
-        <GridItem derivativeLabel = 'Movement Speed'
+        <GridItemStylized derivativeLabel = 'Movement Speed'
 
           derivativeValue = {speed}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = 'speed'
           propertyHandler1 = {setSpeed}
@@ -498,7 +551,7 @@ const HeroCombatPage = (props) => {
       </Grid>
       </Row>
 
-      <Button className='saveButton' color={changesDetected ? Colors.secondary : '#A9A9A9'}
+      <Button className='saveButton' color={changesDetected ? Colors.accent : '#A9A9A9'}
         onClick={()=>{
           setChangesDetected(true); clearSaveTimer(); SaveChanges();
           }}>

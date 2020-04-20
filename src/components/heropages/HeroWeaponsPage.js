@@ -125,8 +125,8 @@ const HeroWeaponsPage = (props) => {
 
       <Row>
       <Grid justify='center'>       
+        <h3>Weapons</h3>
       <SectionWrapper color={Colors.label_red}>
-        <h1>Weapons</h1>
         <div className='logoSpot'><img className='logoImg' src={combat} alt='logo'/></div>
         
         <div className='topButtons'>

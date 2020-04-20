@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import Grid from '../Grid.js'
 import GridItem from '../GridItem.js'
+import GridItemStylized from '../GridItemStylized.js'
+
 import GridItemInputField from '../GridItemInputField.js'
 import SectionWrapper from '../SectionWrapper.js'
 import * as Colors from '../../Colors.js'
@@ -27,6 +29,8 @@ const HeroDetailsPage = (props) => {
   const [about, setAbout] = useState('null');  
   const [size, setSize] = useState('null');
 
+  const [editModeEnabled, setEditModeEnabled] = useState(props.editModeEnabled);
+
   // Reference to the characters info from the database.
   const [heroInfo, setHeroInfo] = useState();
 
@@ -52,21 +56,23 @@ const HeroDetailsPage = (props) => {
 
   // Update the state variables to the characters info from the database
   const handleState = (info) => {
-    setCharacterName(info.charactername);
-    setRace(info.race);
-    setHeroClass(info.heroclass);
-    setLevel(info.level);
-    setAlignment(info.alignment);
-    setAge(info.age);
-    setGender(info.gender);
-    setDeity(info.deity);
-    setHeight(info.height);
-    setWeight(info.weight);
-    setEyes(info.eyes);
-    setHair(info.hair);
-    setLooks(info.looks);
-    setAbout(info.about);
-    setSize(info.size);
+    setEditModeEnabled(props.editModeEnabled);
+
+    setCharacterName(info.charactername || '');
+    setRace(info.race || '');
+    setHeroClass(info.heroclass || '');
+    setLevel(info.level || 1);
+    setAlignment(info.alignment || '');
+    setAge(info.age || '');
+    setGender(info.gender || '');
+    setDeity(info.deity || '');
+    setHeight(info.height || '');
+    setWeight(info.weight || '');
+    setEyes(info.eyes || '');
+    setHair(info.hair || '');
+    setLooks(info.looks || '');
+    setAbout(info.about || '');
+    setSize(info.size || '');
   }
 
   // Update the state of this page when the heroInfo state variable inside of CharacterSheet.js changes
@@ -75,20 +81,19 @@ const HeroDetailsPage = (props) => {
   }, [props.heroInfo]);
 
   // Start the save timer when this page's state variables change
-  useEffect(()=>{ 
-    setInitialSaveNullifier( initialSaveNullifier + 1);
-    if (initialSaveNullifier > 2) {
-      //detectedChanges = true;
-      setChangesDetected(true);
-      startSaveTimer();               
-    }
-  }, [characterName, race, heroClass, level, alignment, age, gender, deity, height, weight, eyes, hair, looks, about]);
-  
+  // useEffect(()=>{ 
+  //   setInitialSaveNullifier( initialSaveNullifier + 1);
+  //   if (initialSaveNullifier > 2) {
+  //     //detectedChanges = true;
+  //     setChangesDetected(true);
+  //     startSaveTimer();               
+  //   }
+  // }, [characterName, race, heroClass, level, alignment, age, gender, deity, height, weight, eyes, hair, looks, about]);
+  // 
   // If changes were detected update the character info in the database
   const SaveChanges = () => {
     if (changesDetected) {
       setNumberOfSaves(numberOfSaves + 1); 
-      //detectedChanges = false; 
       setChangesDetected(false);
       updateHeroInfo();
       console.log('saved 4 real')
@@ -96,6 +101,16 @@ const HeroDetailsPage = (props) => {
       console.log('Did not save: no changes detected')
     }
   }
+
+
+  const ToggleChangesDetected = (x) => {
+    setChangesDetected(x ? x : !changesDetected);
+  }
+
+  useEffect(() => {
+      if (changesDetected)
+      startSaveTimer(); 
+   }, [changesDetected]);
 
   // save the page's state variables to the database
   const updateHeroInfo = async () => {
@@ -124,7 +139,7 @@ const HeroDetailsPage = (props) => {
       })
       .then(response => response.json())
       .then(res => {
-        props.setHeroInfo(res[0])
+        //props.setHeroInfo(res[0])
       })
   }; 
 
@@ -138,20 +153,23 @@ const HeroDetailsPage = (props) => {
       <SectionWrapper color={'white'}>
         <h1>Character Info</h1>
         <div className='logoSpot'><img className='logoImg' src={combat} alt='combat logo'/></div>
-        <GridItem derivativeLabel = 'Character Name'
+        <GridItemStylized derivativeLabel = 'Character Name'
           derivativeValue = {characterName}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = {null}
           propertyHandler1 = {setCharacterName}
           propertyValue1 = {characterName}
           isNumber1= {false}
 
-          startSaveTimer={startSaveTimer}
         />
-        <GridItem derivativeLabel = 'Class'
+        <GridItemStylized derivativeLabel = 'Class'
           derivativeValue = {heroClass}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = {null}
           propertyHandler1 = {setHeroClass}
@@ -159,9 +177,11 @@ const HeroDetailsPage = (props) => {
           isNumber1= {false}
           startSaveTimer={startSaveTimer}
         />
-        <GridItem derivativeLabel = 'Race'
+        <GridItemStylized derivativeLabel = 'Race'
           derivativeValue = {race}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = {null}
           propertyHandler1 = {setRace}
@@ -169,9 +189,11 @@ const HeroDetailsPage = (props) => {
           isNumber1= {false}
           startSaveTimer={startSaveTimer}
         />
-        <GridItem derivativeLabel = 'Level'
+        <GridItemStylized derivativeLabel = 'Level'
           derivativeValue = {level}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = {null}
           propertyHandler1 = {setLevel}
@@ -179,9 +201,11 @@ const HeroDetailsPage = (props) => {
           isNumber1= {false}
           startSaveTimer={startSaveTimer}
         />
-        <GridItem derivativeLabel = 'Alignment'
+        <GridItemStylized derivativeLabel = 'Alignment'
           derivativeValue = {alignment}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = {null}
           propertyHandler1 = {setAlignment}
@@ -194,14 +218,29 @@ const HeroDetailsPage = (props) => {
       <SectionWrapper color='white'>
         <h1>Description</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
-        <GridItemInputField derivativeLabel = 'About'
+        <GridItemStylized derivativeLabel = 'About Me'
           derivativeValue = {about}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = {null}
           propertyHandler1 = {setAbout}
           propertyValue1 = {about}
           isNumber1= {false}
+          isTextField1 = {true}
+        />
+        <GridItemStylized derivativeLabel = 'What I look Like'
+          derivativeValue = {looks}
+          derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
+
+          propertyLabel1 = {null}
+          propertyHandler1 = {setLooks}
+          propertyValue1 = {looks}
+          isNumber1= {false}
+          isTextField1 = {true}
         />
       </SectionWrapper>
 
@@ -214,9 +253,11 @@ const HeroDetailsPage = (props) => {
       <SectionWrapper color='white'>
         <h1>Roleplay Info</h1>
         <div className='logoSpot'><img className='logoImg' src={combat}  alt='combat logo'/></div>
-        <GridItem derivativeLabel = 'Age'
+        <GridItemStylized derivativeLabel = 'Age'
           derivativeValue = {age}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = {null}
           propertyHandler1 = {setAge}
@@ -224,9 +265,11 @@ const HeroDetailsPage = (props) => {
           isNumber1= {true}
           startSaveTimer={startSaveTimer}
         />
-        <GridItem derivativeLabel = 'Gender'
+        <GridItemStylized derivativeLabel = 'Gender'
           derivativeValue = {gender}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = {null}
           propertyHandler1 = {setGender}
@@ -234,9 +277,11 @@ const HeroDetailsPage = (props) => {
           isNumber1= {false}
           startSaveTimer={startSaveTimer}
         />
-        <GridItem derivativeLabel = 'Deity'
+        <GridItemStylized derivativeLabel = 'Deity'
           derivativeValue = {deity}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = {null}
           propertyHandler1 = {setDeity}
@@ -244,9 +289,11 @@ const HeroDetailsPage = (props) => {
           isNumber1= {false}
           startSaveTimer={startSaveTimer}
         />
-        <GridItem derivativeLabel = 'Height'
+        <GridItemStylized derivativeLabel = 'Height'
           derivativeValue = {height}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = {null}
           propertyHandler1 = {setHeight}
@@ -254,9 +301,11 @@ const HeroDetailsPage = (props) => {
           isNumber1= {false}
           startSaveTimer={startSaveTimer}
         />
-        <GridItem derivativeLabel = 'Weight'
+        <GridItemStylized derivativeLabel = 'Weight'
           derivativeValue = {weight}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = {null}
           propertyHandler1 = {setWeight}
@@ -264,9 +313,11 @@ const HeroDetailsPage = (props) => {
           isNumber1= {false}
           startSaveTimer={startSaveTimer}
         />
-        <GridItem derivativeLabel = 'Eyes'
+        <GridItemStylized derivativeLabel = 'Eyes'
           derivativeValue = {eyes}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = {null}
           propertyHandler1 = {setEyes}
@@ -274,9 +325,11 @@ const HeroDetailsPage = (props) => {
           isNumber1= {false}
           startSaveTimer={startSaveTimer}
         />
-        <GridItem derivativeLabel = 'Hair'
+        <GridItemStylized derivativeLabel = 'Hair'
           derivativeValue = {hair}
           derivativeFrom = {1}
+          editModeEnabled={editModeEnabled}
+          ToggleChangesDetected={ToggleChangesDetected}
 
           propertyLabel1 = {null}
           propertyHandler1 = {setHair}
@@ -289,7 +342,7 @@ const HeroDetailsPage = (props) => {
       </Grid>
       </Row>
 
-      <Button className='saveButton' color={changesDetected ? Colors.secondary : '#A9A9A9'}
+      <Button className='saveButton' color={changesDetected ? Colors.accent : '#A9A9A9'}
         onClick={()=>{
           setChangesDetected(true); clearSaveTimer(); SaveChanges();
           }}>

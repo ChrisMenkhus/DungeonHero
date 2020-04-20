@@ -11,6 +11,8 @@ const HeroPageWrapper = styled.div`
 
   padding-bottom: 5rem;
 
+
+
   h4 {
     text-align: center; 
     text-indent: 1rem;
@@ -24,6 +26,12 @@ const HeroPageWrapper = styled.div`
     color: white;
     font-weight: lighter;
 
+  }
+
+  h3 {
+    text-align: center;
+    font-weight: lighter;
+    font-size: 1rem;
   }
 
   .saveButton {

@@ -7,9 +7,9 @@ const Button = styled.button`
   border: none; 
   color: white;
   border-radius: 0rem;
-  width: 50%;
+  width: ${props => props.width ? props.width : '50%'};
   font-weight: bold;
-  background-color: ${props => props.color ? props.color : Colors.secondary};
+  background-color: ${props => props.color ? props.color : Colors.interactive};
 `;
 
 export default Button;

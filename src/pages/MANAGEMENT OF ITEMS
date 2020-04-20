@@ -1,0 +1,9 @@
+MANAGEMENT OF ITEMS
+
+schema:
+allitems : heroid, uid, name, type
+weapons: uid, name, description,
+	damagediesides, damagediceamount, damagebonus, criticalmultiplier, criticalrangefrom, criticalrangeto, range, specialproperties,
+armor: uid, name, description,
+	type, acbonus, maxdex, armorcheckpenalty, spellfailure, speed
+basic: uid, name, description, amount

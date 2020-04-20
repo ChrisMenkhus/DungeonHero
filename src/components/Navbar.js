@@ -1,16 +1,17 @@
 
 import styled from 'styled-components';
-import {background_superdark, secondary} from '../Colors.js'
+import {background_superdark, secondary, accent} from '../Colors.js'
 
 const Navbar = styled.nav`
+  position: absolute; top: 0px;
+
   width: 100%;
   min-height: 3rem;
   display: flex;
   z-index: 5;
   flex-wrap: nowrap;
-  background-color: ${background_superdark};
-  background-color: #111111;
 
+  background-color: transparent;
   ion-icon {
     width: 1.5rem;
     height: 1.5rem;
@@ -59,10 +60,13 @@ const Navbar = styled.nav`
       margin: 0px;
       margin-left: 1rem;
       border-bottom: 0px;
-      color: ${secondary};
-      padding-right: 0.5rem;
-      
-      border-right: ${props => props.loggedIn ? '1px solid white' : null };
+      background-color: ${background_superdark};
+      /*border-right: ${props => props.loggedIn ? '1px solid white' : null };*/
+      border-left: 6px solid ${accent};
+      -ms-transform: skewX(-20deg);
+      -webkit-transform: skewX(-20deg);
+      transform: skewX(-20deg);
+      color: white;
       
     }
     .title:hover {

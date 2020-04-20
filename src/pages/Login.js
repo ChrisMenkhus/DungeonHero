@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import Button from '../components/Button.js'
-import {background_superdark, secondary} from '../Colors.js'
+import {background_primary, interactive} from '../Colors.js'
 
 
 
@@ -9,7 +9,7 @@ import {background_superdark, secondary} from '../Colors.js'
 
 const Style = styled.div`
     height: 80vh;
-    background-color: ${background_superdark};
+    background-color: ${background_primary};
     h1 {
       text-align: center;
       font-weight: lighter;
@@ -41,11 +41,9 @@ const Style = styled.div`
     button {
       margin: auto;
       margin-left: auto; margin-right: auto;
-      background-color: ${secondary};
-      color: white;
-      -ms-transform: skewX(-20deg);
-      -webkit-transform: skewX(-20deg);
-      transform: skewX(-20deg);
+      background-color: ${interactive};
+
+      border-left: 3px solid white;
       border-radius: 0px;
       }
     }
@@ -69,7 +67,7 @@ const Container = styled.div`
   width: auto;
   padding: 1rem 3rem;
   background-color: gray;
-  background-color: ${background_superdark};
+  background-color: ${background_primary};
 
 `;
 

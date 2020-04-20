@@ -30,7 +30,7 @@ const Style = styled.div`
     z-index: 99;
     margin: 1em;
     width: 30px;
-    background-color: gray;
+    background-color: ${Colors.interactive};
     border-radius: 50%;
     padding: 0.5rem;
   }
@@ -55,11 +55,11 @@ const NavStyle = styled.div`
   z-index: 3;
 
   .myTitle {
-    color: #0054A9;
-    color: ${Colors.secondary};
+
     
     font-weight: bolder;
   }
+  
 `;
 
 const StyledLink = styled(NavLink)`
@@ -192,7 +192,7 @@ const App = () => {
         {/* </Route> */}
         <Route path="/charactersheet/:id"
         render={props => {
-        return <CharacterSheet {...props} heroId={heroId} setHeroId={setHeroId} userId={userId} setRedirectPath={setRedirectPath} />;
+        return <CharacterSheet {...props} loggedIn={loggedIn} heroId={heroId} setHeroId={setHeroId} userId={userId} setRedirectPath={setRedirectPath} />;
       }} />
         <Route path="/test">
           <Test />

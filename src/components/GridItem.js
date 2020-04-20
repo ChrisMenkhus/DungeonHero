@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import * as Colors from '../Colors.js'
+import Input from './Input.js'
 
 const Container = styled.div`
     margin: 0.2rem;
@@ -41,35 +42,9 @@ const Container = styled.div`
     }
 `;
 
-const Input = styled.input`
-    display: flex;
-    width: auto;
-    min-width: 1rem;
-    font-size: 1rem;
-    margin: 0rem auto 0.5rem auto;
-    background-color: #E3E3E3;
-    border: none;
-    /*border-radius: 2rem;*/
-    color: black;
-    text-align: center;
-    /*background-color: ${Colors.background_verydark};*/
-    /*border-bottom: 1px solid red;*/
 
-
-    &:focus {
-      /*outline: 2px solid purple;*/
-      box-shadow: 0 0 5px white;
-/*      padding: 3px 0px 3px 3px;
-      margin: 5px 1px 3px 0px;*/
-      border: 1px solid white;
-    }
-  `;
 
 const GridItem = (props) => {
-  // useEffect(()=>{
-  //   props.startSaveTimer();
-  // }, [props.propertyValue1]);
-
   const [collapsed, toggleCollapsed] = useState(true);
   return (
     <Container>
@@ -77,9 +52,6 @@ const GridItem = (props) => {
         <h2>{props.derivativeLabel}</h2>
         <h3>{props.derivativeValue}</h3>
       </div>
-      {/* <div className='collapseButton' */}
-      {/*   onClick={()=>{toggleCollapsed(!collapsed)}} */}
-      {/* /> */}
       {collapsed ?
         null
         :
@@ -110,14 +82,11 @@ const keyPress = (e, toggleCollapsed) => {
     if(e.keyCode === 13){
        toggleCollapsed(true);
     }
-  }
+}
 
 
 
 const DisplayProperties = (props, toggleCollapsed) => {
-
-
-
   const derivativeFrom = props.derivativeFrom;
   return (
   <div>
@@ -234,7 +203,6 @@ const DisplayProperties = (props, toggleCollapsed) => {
           : <h3>{props.propertyValue9}</h3> }  
       </div> 
     : null }
-
   </div>
   )  
 }
