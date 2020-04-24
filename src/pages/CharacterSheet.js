@@ -13,7 +13,7 @@ import skills from '../images/skills.svg';
 
 const CharacterSheetWrapper = styled.div` width: auto;
   min-height: 100vh;
-  height: auto;
+ 
   background-color: ${background_primary};
   @media only screen and (max-width: 620px) {
   padding: 0rem 0px;
@@ -22,7 +22,7 @@ const CharacterSheetWrapper = styled.div` width: auto;
 `;
 
 const CharacterSheetNav = styled.div`
-  z-index: 2;
+  z-index: 102;
   height: 3rem;
   width: 100%;
   margin: 0px auto 2rem auto;
@@ -76,8 +76,10 @@ const CharacterSheetNav = styled.div`
 const CharacterSheet = (props) => {
   const [heroInfo, setHeroInfo] = useState([]);
   const [heroStats, setHeroStats] = useState([]);
+  const [heroEquipment, setHeroEquipment] = useState([]);
 
-  const [page, setPage] = useState('combat');
+
+  const [page, setPage] = useState('equipment');
   const paramsId = props.match.params.id;
   const mainHeroId = props.heroId;
 
@@ -89,7 +91,12 @@ const CharacterSheet = (props) => {
     
   }, [props.loggedIn])
 
+  useEffect(() => {
+  window.scrollTo(0, 0)
+  }, [])
+
   const switchPages = (newPage) => {
+    window.scrollTo(0, 0)
 
     if (page === 'details') {
       // setSwitchingDetailsPage(true);
@@ -120,8 +127,6 @@ const CharacterSheet = (props) => {
       })
       .then(response => response.json())
       .then(res => {
-        console.log('the response is :')
-        console.log(res)
         if (res) {
           setHeroInfo(res);          
         }
@@ -136,10 +141,24 @@ const CharacterSheet = (props) => {
       })
       .then(response => response.json())
       .then(res => {
-        console.log('the response is :')
-        console.log(res)
         if (res) {
           setHeroStats(res);          
+        }
+      })
+      .catch(error => console.log(error));
+    };
+
+    const GetHeroEquipment = async (heroId) => {
+      fetch(("https://tabletophero.herokuapp.com/hero_equipment/" + heroId), {
+        method: "get",
+        headers: { "Content-type": "application/json" }
+      })
+      .then(response => response.json())
+      .then(res => {
+        console.log('the equipment response is :')
+        console.log(res)
+        if (res) {
+          setHeroEquipment(res);          
         }
       })
       .catch(error => console.log(error));
@@ -148,6 +167,7 @@ const CharacterSheet = (props) => {
     if (mainHeroId.length > 1) {
     GetHeroInfo(mainHeroId);
     GetHeroStats(mainHeroId);  
+    GetHeroEquipment(mainHeroId);
     }
   }, [mainHeroId]);
 
@@ -174,7 +194,7 @@ const CharacterSheet = (props) => {
           page === 'combat' ? 
           <HeroCombatPage editModeEnabled={editModeEnabled} userId={props.userId} heroStats={heroStats} setHeroStats={setHeroStats} heroId={props.heroId}/> :
           page === 'equipment' ? 
-          <HeroEquipmentPage editModeEnabled={editModeEnabled} userId={props.userId} heroStats={heroStats} setHeroStats={setHeroStats} heroId={props.heroId}/> :
+          <HeroEquipmentPage editModeEnabled={editModeEnabled} userId={props.userId} heroEquipment={heroEquipment} setHeroEquipment={setHeroEquipment} heroId={props.heroId}/> :
           null
         } 
       </div>

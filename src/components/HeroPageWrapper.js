@@ -11,7 +11,7 @@ const HeroPageWrapper = styled.div`
 
   padding-bottom: 5rem;
 
-
+  margin-top: 1.2rem;
 
   h4 {
     text-align: center; 

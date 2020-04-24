@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Grid = styled.div`
   display: flex;
   flex-wrap: wrap;
-  height: 100%;
+  height: auto;
   width: auto;
   justify-content: ${props => props.justify ? props.justify : 'center'};
   align-content: center;

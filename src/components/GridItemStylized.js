@@ -37,7 +37,7 @@ const Style = styled.div`
 		margin: 0.5rem auto 0.1rem;
 		h3 {
 			font-size: 0.8rem;
-					
+			color: white;
 			font-weight: lighter;
 			text-align: center;	
 		}

@@ -21,6 +21,10 @@ const SectionWrapper = styled.section`
     margin-top: -2rem;
   }
 
+  h3 {
+    color: black;
+  }
+
   padding: -50px;
   &:before {
   content: '';

@@ -4,6 +4,14 @@ schema:
 allitems : heroid, uid, name, type
 weapons: uid, name, description,
 	damagediesides, damagediceamount, damagebonus, criticalmultiplier, criticalrangefrom, criticalrangeto, range, specialproperties,
+
+
+create table weapons (weaponid text primary key, name text, description text, damagediesides smallint, damagediceamount smallint, damagebonus smallint, criticalmultiplier smallint, criticalrangefrom smallint, criticalrangeto smallint, range smallint, specialproperties text, source text);
+
+create table armor (armorid text primary key, name text, description text, type int, acbonus int, maxdex int, armorcheckpenalty int, spellfailure int, speed int, source text);
+
+create table basicitems (basicitemid text primary key, name text, description text, amount smallint, source text);
+
 armor: uid, name, description,
 	type, acbonus, maxdex, armorcheckpenalty, spellfailure, speed
 basic: uid, name, description, amount

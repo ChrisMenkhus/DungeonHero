@@ -5,6 +5,7 @@ const Row = styled.div`
   display: flex; flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  margin: auto;
   margin-bottom: 1rem;
 `;
 
