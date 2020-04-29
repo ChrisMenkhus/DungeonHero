@@ -15,7 +15,7 @@ const HeroPageWrapper = styled.div`
 
   h4 {
     text-align: center; 
-    text-indent: 1rem;
+    
     border-bottom: 1px solid white;
     width: 60vw;
     margin: auto auto auto auto;

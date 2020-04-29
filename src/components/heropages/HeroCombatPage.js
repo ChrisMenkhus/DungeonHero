@@ -62,7 +62,7 @@ const HeroCombatPage = (props) => {
   const [numberOfSaves, setNumberOfSaves] = useState(0);
   
   const [mySaveTimer, setMySaveTimer] = useState(0);
-  const saveTimerLength = 9000;
+  const saveTimerLength = 100;
 
   const clearSaveTimer = () => {
     clearTimeout(mySaveTimer);
@@ -152,6 +152,7 @@ const HeroCombatPage = (props) => {
    }, [changesDetected]);
 
   const updateHeroStats = async () => {
+    console.log('INTIAITVE MISC MOD = ' + initiativeMiscMod)
     fetch("https://tabletophero.herokuapp.com/hero_stats/", {
       method: "post",
       headers: { "Content-type": "application/json" },
@@ -167,14 +168,14 @@ const HeroCombatPage = (props) => {
         damagetaken: damageTaken,
         hitdice: hitDice,
         damagereduction: damageReduction,
-        baseac: 0,
+        baseac: 10,
         armorbonus: armorMod,
-        armorsizemod: 0,
+        armorsizemod: sizeMod,
         armormiscmod: acMiscMod,
         touchmiscmod: touchMiscMod,
         flatfootedmiscmod: flatFootedMiscMod,
         baseattackbonus: baseAttackBonus,
-        attacksizemod: 0,
+        attacksizemod: sizeMod,
         meleemiscmod: meleeAttackMiscMod,
         rangedmiscmod: rangedAttackMiscMod,
         basefort: fortBase,
@@ -189,7 +190,8 @@ const HeroCombatPage = (props) => {
       })
       .then(response => response.json())
       .then(res => {
-        //props.setHeroStats(res[0])
+        props.setHeroStats(res[0])
+        console.log(res[0].initiativemiscmod)
       })
   }; 
 

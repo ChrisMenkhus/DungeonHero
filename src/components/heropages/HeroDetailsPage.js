@@ -34,21 +34,22 @@ const HeroDetailsPage = (props) => {
   // Reference to the characters info from the database.
   const [heroInfo, setHeroInfo] = useState();
 
-  const [changesDetected, setChangesDetected] = useState();
+  const [changesDetected, setChangesDetected] = useState(false);
 
   const [initialSaveNullifier, setInitialSaveNullifier] = useState(0);
   const [numberOfSaves, setNumberOfSaves] = useState(0);
   
   const [mySaveTimer, setMySaveTimer] = useState(0);
-  const saveTimerLength = 9000;
+  const saveTimerLength = 100;
 
   const clearSaveTimer = () => {
+    console.log('cleared timer')
     clearTimeout(mySaveTimer);
   }
 
   // Auto saves the page after the specified length
   const startSaveTimer = () => {
-    clearTimeout(mySaveTimer);
+    clearSaveTimer();
     setMySaveTimer( setTimeout( () => {
       SaveChanges();
     }, saveTimerLength) );
@@ -105,6 +106,7 @@ const HeroDetailsPage = (props) => {
 
   const ToggleChangesDetected = (x) => {
     setChangesDetected(x ? x : !changesDetected);
+    console.log('changes detected: ' + changesDetected);
   }
 
   useEffect(() => {
@@ -139,7 +141,8 @@ const HeroDetailsPage = (props) => {
       })
       .then(response => response.json())
       .then(res => {
-        //props.setHeroInfo(res[0])
+        props.setHeroInfo(res[0])
+        //this may be dangerous
       })
   }; 
 

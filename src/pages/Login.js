@@ -108,7 +108,7 @@ const Login = props => {
         <Container>
           <h1>Login</h1>
           <Wrapper>
-            <label>email</label>
+            <label>username</label>
             <Wrapper>
               <input type="text" onChange={(e)=>{setEmail(e.target.value)}}></input>
             </Wrapper>

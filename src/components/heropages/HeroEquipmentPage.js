@@ -5,6 +5,9 @@ import Grid from '../Grid.js'
 import GridItem from '../GridItem.js'
 import GridItemStylized from '../GridItemStylized.js'
 import GridItemWeapon from '../GridItemWeapon.js'
+import GridItemArmor from '../GridItemArmor.js'
+import GridItemBasicItem from '../GridItemBasicItem.js'
+
 
 import GridItemInputField from '../GridItemInputField.js'
 import SectionWrapper from '../SectionWrapper.js'
@@ -17,7 +20,7 @@ import Row from '../Row.js'
 import Modal from '../Modal.js'
 
 
-const HeroDetailsPage = (props) => {
+const HeroEquipmentPage = (props) => {
   // initialized state variables for this page.
   const [newWeaponName, setNewWeaponName] = useState('');
   const [newWeaponType, setNewWeaponType] = useState(0);
@@ -41,7 +44,7 @@ const HeroDetailsPage = (props) => {
   const [numberOfSaves, setNumberOfSaves] = useState(0);
   
   const [mySaveTimer, setMySaveTimer] = useState(0);
-  const saveTimerLength = 9000;
+  const saveTimerLength = 100;
 
   const clearSaveTimer = () => {
     clearTimeout(mySaveTimer);
@@ -64,28 +67,31 @@ const HeroDetailsPage = (props) => {
     let basicItemsArray = [];
 
 
-    if (info.length) {
-    if(info[0].length) weaponArray = info[0].map((item, i)=>{
+    if (info) {
+    if(info[0]) weaponArray = info[0].map((item, i)=>{
       return(
-        <GridItemWeapon item = {item}
+        <GridItemWeapon item={item}
           editModeEnabled={editModeEnabled}
           ToggleChangesDetected={ToggleChangesDetected}
+          DeleteItem={DeleteItem}
           />
         )
     })
-    if(info[1].length) armorArray = info[1].map((item, i)=>{
+    if(info[1]) armorArray = info[1].map((item, i)=>{
       return(
-        <GridItemWeapon item = {item}
+        <GridItemArmor item={item}
           editModeEnabled={editModeEnabled}
           ToggleChangesDetected={ToggleChangesDetected}
+          DeleteItem={DeleteItem}
           />
         )
     })
-    if(info[2].length) basicItemsArray = info[2].map((item, i)=>{
+    if(info[2]) basicItemsArray = info[2].map((item, i)=>{
       return(
-        <GridItemWeapon item = {item}
+        <GridItemBasicItem item={item}
           editModeEnabled={editModeEnabled}
           ToggleChangesDetected={ToggleChangesDetected}
+          DeleteItem={DeleteItem}
           />
         )
     })
@@ -98,6 +104,23 @@ const HeroDetailsPage = (props) => {
 
   }
 
+  const DeleteItem = async (itemid, type) => {
+    console.log('dlete item: ' + itemid + ' of type: ' + type)
+    fetch("https://tabletophero.herokuapp.com/delete_item/", {
+    method: "post",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify({
+            heroid: props.heroId,
+            itemid: itemid,
+            type: type
+    })
+    })
+    .then(response => response.json())
+    .then(res => {
+      console.log(res);
+      props.setHeroEquipment(res);
+    })
+  }
 
 
   // Update the state of this page when the heroInfo state variable inside of CharacterSheet.js changes
@@ -126,8 +149,7 @@ const HeroDetailsPage = (props) => {
 
   // save the page's state variables to the database
   const SaveNewItem = async () => {
-    console.log('tryin new item')
-    fetch("http://localhost:5000/newitem/", {
+    fetch("https://tabletophero.herokuapp.com/newitem/", {
       method: "post",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
@@ -140,7 +162,7 @@ const HeroDetailsPage = (props) => {
       .then(res => {
         console.log('save new item response:')
         console.log(res);
-        //props.setHeroEquipment(res);
+        props.setHeroEquipment(res);
       })
   }; 
 
@@ -162,7 +184,7 @@ const HeroDetailsPage = (props) => {
       </Modal>
       <h4>Equipment</h4>
       <Column>
-              <Button width='8rem'
+        <Button width='8rem'
         onClick={()=>{setToggleModal(!toggleModal)}}
         >Add Equipment</Button>
       </Column>
@@ -217,4 +239,4 @@ const HeroDetailsPage = (props) => {
   );
 }
 
-export default HeroDetailsPage;
+export default HeroEquipmentPage;

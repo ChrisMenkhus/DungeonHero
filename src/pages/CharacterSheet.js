@@ -4,6 +4,8 @@ import {background_primary, background_secondary, background_tertiary, accent, i
 import HeroCombatPage from '../components/heropages/HeroCombatPage.js'
 import HeroDetailsPage from '../components/heropages/HeroDetailsPage.js'
 import HeroEquipmentPage from '../components/heropages/HeroEquipmentPage.js'
+import HeroSkillsPage from '../components/heropages/HeroSkillsPage.js'
+
 import HeroActionsPage from '../components/heropages/HeroActionsPage.js'
 import combat from '../images/combat.svg';
 import details from '../images/details.svg';
@@ -77,17 +79,22 @@ const CharacterSheet = (props) => {
   const [heroInfo, setHeroInfo] = useState([]);
   const [heroStats, setHeroStats] = useState([]);
   const [heroEquipment, setHeroEquipment] = useState([]);
+  const [heroSkills, setHeroSkills] = useState([]);
 
 
-  const [page, setPage] = useState('equipment');
+
+  const [page, setPage] = useState('details');
   const paramsId = props.match.params.id;
   const mainHeroId = props.heroId;
 
   const [editModeEnabled, setEditModeEnabled] = useState(props.loggedIn);
+  //const [editModeEnabled, setEditModeEnabled] = useState(true);
+
 
   useEffect(()=>{
 
       setEditModeEnabled(props.loggedIn);
+      
     
   }, [props.loggedIn])
 
@@ -142,6 +149,8 @@ const CharacterSheet = (props) => {
       .then(response => response.json())
       .then(res => {
         if (res) {
+          console.log('HERO STATS:')
+          console.log(res);
           setHeroStats(res);          
         }
       })
@@ -164,10 +173,27 @@ const CharacterSheet = (props) => {
       .catch(error => console.log(error));
     };
 
+    const GetHeroSkills = async (heroId) => {
+      fetch(("https://tabletophero.herokuapp.com/hero_skills/" + heroId), {
+        method: "get",
+        headers: { "Content-type": "application/json" }
+      })
+      .then(response => response.json())
+      .then(res => {
+        console.log('the skills response is :')
+        console.log(res)
+        if (res) {
+          setHeroSkills(res);          
+        }
+      })
+      .catch(error => console.log(error));
+    };
+
     if (mainHeroId.length > 1) {
     GetHeroInfo(mainHeroId);
     GetHeroStats(mainHeroId);  
     GetHeroEquipment(mainHeroId);
+    GetHeroSkills(mainHeroId);
     }
   }, [mainHeroId]);
 
@@ -195,6 +221,8 @@ const CharacterSheet = (props) => {
           <HeroCombatPage editModeEnabled={editModeEnabled} userId={props.userId} heroStats={heroStats} setHeroStats={setHeroStats} heroId={props.heroId}/> :
           page === 'equipment' ? 
           <HeroEquipmentPage editModeEnabled={editModeEnabled} userId={props.userId} heroEquipment={heroEquipment} setHeroEquipment={setHeroEquipment} heroId={props.heroId}/> :
+          page === 'skills' ? 
+          <HeroSkillsPage editModeEnabled={editModeEnabled} userId={props.userId} heroStats={heroStats} heroSkills={heroSkills} setHeroSkills={setHeroSkills} heroId={props.heroId}/> :
           null
         } 
       </div>

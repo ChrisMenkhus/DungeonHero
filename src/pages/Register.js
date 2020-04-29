@@ -111,7 +111,7 @@ const Register = props => {
             <Wrapper>
               <input type="text" onChange={(e)=>{setName(e.target.value)}}></input>
             </Wrapper>
-            <label>email</label>
+            <label>username</label>
             <Wrapper>
               <input type="text" onChange={(e)=>{setEmail(e.target.value)}}></input>
             </Wrapper>
