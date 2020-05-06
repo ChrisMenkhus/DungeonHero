@@ -20,7 +20,24 @@ const CharacterSheetWrapper = styled.div` width: auto;
   @media only screen and (max-width: 620px) {
   padding: 0rem 0px;
   padding-bottom: 2rem;
-}
+  }
+
+  .loadingicon {
+  padding-top: 50vh;
+  ion-icon {
+  display: flex;
+  margin: auto;
+  animation: rotation 2s infinite linear;
+  }
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
+  }
 `;
 
 const CharacterSheetNav = styled.div`
@@ -81,6 +98,8 @@ const CharacterSheet = (props) => {
   const [heroEquipment, setHeroEquipment] = useState([]);
   const [heroSkills, setHeroSkills] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
 
 
   const [page, setPage] = useState('details');
@@ -107,19 +126,19 @@ const CharacterSheet = (props) => {
 
     if (page === 'details') {
       // setSwitchingDetailsPage(true);
-      // console.log('switching to ' + newPage + ' from details')
+
       setPage(newPage);
     } else if (page === 'combat') {
       // setSwitchingCombatPage(true);
-      // console.log('switching to ' + newPage + ' from combat')
+
       setPage(newPage);
     } else if (page === 'equipment') {
       // setSwitchingEquipmentPage(true);
-      // console.log('switching to ' + newPage + ' from equipment')
+
       setPage(newPage);
     } else if (page === 'skills') {
       // setSwitchingSkillsPage(true);
-      // console.log('switching to ' + newPage + ' from skills')
+
       setPage(newPage);
     }
 
@@ -127,6 +146,7 @@ const CharacterSheet = (props) => {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     const GetHeroInfo = async (heroId) => {
       fetch(("https://tabletophero.herokuapp.com/hero_info/" + heroId), {
         method: "get",
@@ -134,6 +154,7 @@ const CharacterSheet = (props) => {
       })
       .then(response => response.json())
       .then(res => {
+        setIsLoading(false);
         if (res) {
           setHeroInfo(res);          
         }
@@ -148,9 +169,8 @@ const CharacterSheet = (props) => {
       })
       .then(response => response.json())
       .then(res => {
+        setIsLoading(false);
         if (res) {
-          console.log('HERO STATS:')
-          console.log(res);
           setHeroStats(res);          
         }
       })
@@ -164,8 +184,7 @@ const CharacterSheet = (props) => {
       })
       .then(response => response.json())
       .then(res => {
-        console.log('the equipment response is :')
-        console.log(res)
+        setIsLoading(false);
         if (res) {
           setHeroEquipment(res);          
         }
@@ -180,8 +199,7 @@ const CharacterSheet = (props) => {
       })
       .then(response => response.json())
       .then(res => {
-        console.log('the skills response is :')
-        console.log(res)
+        setIsLoading(false);
         if (res) {
           setHeroSkills(res);          
         }
@@ -202,7 +220,6 @@ const CharacterSheet = (props) => {
         props.setHeroId(paramsId);     
         // ^^ giving me that error 
         //setEditModeEnabled(false);
-        console.log('SETTING EDIT MODE ENABLED TO FALSE')
       }
    }, [paramsId]);
 
@@ -210,6 +227,11 @@ const CharacterSheet = (props) => {
 
   return (
     <CharacterSheetWrapper>
+      {isLoading ? 
+      <div className='loadingicon'>
+        <ion-icon name="reload-outline"/>
+      </div>
+      :
       <div>
         {
           page === 'actions' ? 
@@ -226,6 +248,7 @@ const CharacterSheet = (props) => {
           null
         } 
       </div>
+      }
 
         <CharacterSheetNav>
           {/* <div className={page === 'actions' ? 'active item' : 'item'} onClick={()=>{ setSwitchingPage(true); setPage('actions');  }}> */}

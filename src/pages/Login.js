@@ -48,11 +48,31 @@ const Style = styled.div`
       }
     }
 
-  .errorText {
-    color: white;
-    width: 100%;
-  }
+    .errorText {
+      color: white;
+      width: 100%;
+    }
+
+
+    .loadingicon {
+      padding-bottom: 1rem;
+      ion-icon {
+      display: flex;
+      margin: auto;
+      animation: rotation 2s infinite linear;
+      }
+      @keyframes rotation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(359deg);
+        }
+      }
+    }
+
 `;
+
 
 const Wrapper = styled.div`
   display: flex; flex-direction: column;
@@ -75,9 +95,10 @@ const Login = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorText, setErrorText] = useState('');
-
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = event => {
+  setIsLoading(true);
   fetch('https://tabletophero.herokuapp.com/login/', {
     method: 'post',
     headers: {'Content-type': 'application/json'},
@@ -88,6 +109,7 @@ const Login = props => {
   })
   .then(response => response.json())
   .then(user => {
+    setIsLoading(false);
     if (user.user_id) {
       setErrorText('logged in');
       props.setLoggedIn(true);
@@ -125,10 +147,15 @@ const Login = props => {
           </Wrapper>
           <p className='errorText'>{errorText ? errorText : null}</p>
 
+          {isLoading ?
+          <div className='loadingicon'>
+          <ion-icon name="reload-outline"/>
+          </div>
+          :
           <div className="buttons">
             <Button className="purple-button" onClick={(e)=>{ handleSubmit() }}>Login</Button>
-
           </div>
+          }
         </Container>
       </Wrapper>
     </Style>

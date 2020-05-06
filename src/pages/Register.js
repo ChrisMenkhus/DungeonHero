@@ -45,10 +45,27 @@ const Style = styled.div`
     }
     }
 
-  .errorText {
-    color: white;
-    width: 100%;
-  }
+    .errorText {
+      color: white;
+      width: 100%;
+    }
+
+    .loadingicon {
+      padding-bottom: 1rem;
+      ion-icon {
+      display: flex;
+      margin: auto;
+      animation: rotation 2s infinite linear;
+      }
+      @keyframes rotation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(359deg);
+        }
+      }
+    }
 `;
 
 const Wrapper = styled.div`
@@ -71,11 +88,13 @@ const Container = styled.div`
 const Register = props => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-
   const [password, setPassword] = useState('');
   const [errorText, setErrorText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleSubmitRegister = event => {
+  setIsLoading(true);
   fetch('https://tabletophero.herokuapp.com/register/', {
     method: 'post',
     headers: {'Content-type': 'application/json'},
@@ -87,6 +106,7 @@ const Register = props => {
   })
   .then(response => response.json())
   .then(user => {
+    setIsLoading(false);
     console.log(user);
     if (user.user_id) {
       setErrorText(user.email + ' registered'); 
@@ -119,18 +139,18 @@ const Register = props => {
             <Wrapper>
               <input type="password" onChange={(e)=>{setPassword(e.target.value)}}></input>
             </Wrapper>
-            {/* <div> */}
-            {/*   <label>keep me logged in?</label> */}
-            {/*   <Wrapper flexdirection='row'> */}
-            {/*     <input className="checkbox" type="checkbox" /> */}
-            {/*   </Wrapper> */}
-            {/* </div> */}
           </Wrapper>
           <p className='errorText'>{errorText ? errorText : null}</p>
 
+          {isLoading ? 
+          <div className='loadingicon'>
+          <ion-icon name="reload-outline"/>
+          </div>
+          :
           <div className="buttons">
             <Button className="purple-button" onClick={(e)=>{ handleSubmitRegister() }}>Register</Button>
           </div>
+          }
         </Container>
       </Wrapper>
     </Style>
