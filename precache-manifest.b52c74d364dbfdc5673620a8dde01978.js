@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e716d4062edf607c4e323a5b61c197d5",
+    "revision": "84c17cd2bfac8f2b917babe18f574ffc",
     "url": "/DungeonHero/index.html"
   },
   {
-    "revision": "004335f30be1eeeaf220",
+    "revision": "3efd1cde5643212fd73b",
     "url": "/DungeonHero/static/css/main.b4d8c150.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/DungeonHero/static/js/2.079c309d.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "004335f30be1eeeaf220",
-    "url": "/DungeonHero/static/js/main.e78d4187.chunk.js"
+    "revision": "3efd1cde5643212fd73b",
+    "url": "/DungeonHero/static/js/main.ec5c7387.chunk.js"
   },
   {
     "revision": "2769ad37f60677e94d4c",

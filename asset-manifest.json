@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/DungeonHero/static/css/main.b4d8c150.chunk.css",
-    "main.js": "/DungeonHero/static/js/main.e78d4187.chunk.js",
-    "main.js.map": "/DungeonHero/static/js/main.e78d4187.chunk.js.map",
+    "main.js": "/DungeonHero/static/js/main.ec5c7387.chunk.js",
+    "main.js.map": "/DungeonHero/static/js/main.ec5c7387.chunk.js.map",
     "runtime-main.js": "/DungeonHero/static/js/runtime-main.ad191d38.js",
     "runtime-main.js.map": "/DungeonHero/static/js/runtime-main.ad191d38.js.map",
     "static/js/2.079c309d.chunk.js": "/DungeonHero/static/js/2.079c309d.chunk.js",
     "static/js/2.079c309d.chunk.js.map": "/DungeonHero/static/js/2.079c309d.chunk.js.map",
     "index.html": "/DungeonHero/index.html",
-    "precache-manifest.c450f021cf71661931ae8ccbfddf5fc2.js": "/DungeonHero/precache-manifest.c450f021cf71661931ae8ccbfddf5fc2.js",
+    "precache-manifest.b52c74d364dbfdc5673620a8dde01978.js": "/DungeonHero/precache-manifest.b52c74d364dbfdc5673620a8dde01978.js",
     "service-worker.js": "/DungeonHero/service-worker.js",
     "static/css/main.b4d8c150.chunk.css.map": "/DungeonHero/static/css/main.b4d8c150.chunk.css.map",
     "static/js/2.079c309d.chunk.js.LICENSE.txt": "/DungeonHero/static/js/2.079c309d.chunk.js.LICENSE.txt",
@@ -22,6 +22,6 @@
     "static/js/runtime-main.ad191d38.js",
     "static/js/2.079c309d.chunk.js",
     "static/css/main.b4d8c150.chunk.css",
-    "static/js/main.e78d4187.chunk.js"
+    "static/js/main.ec5c7387.chunk.js"
   ]
 }
