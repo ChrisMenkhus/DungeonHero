@@ -1,12 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import {background_primary, background_secondary, background_tertiary, accent, interactive} from '../Colors.js'
 import Button from '../components/Button.js'
 import bg from '../images/bg.jpg'
+import screenshot1 from '../images/screenshot2.png'
+import screenshot3 from '../images/screenshot3.png'
+import screenshot2 from '../images/screenshot1.png'
+import screenshot4 from '../images/screenshot4.png'
+
+
+
+
 
 const Style = styled.div`
   width: 100%;
-  height: 100vh;
+  height: auto;
   background-color: ${background_tertiary};
  
   text-align: center;
@@ -45,11 +53,74 @@ const Style = styled.div`
   }
 
 
+  .therow {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: auto;
+    padding-bottom: 3rem;
+  }
   .messyButtonContainer {
-    margin: auto; padding: 0px;
-    height: 100%;
+    margin: 1rem; padding: 1rem;
+    height: auto;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+
+    @media only screen and (max-width: 1200px) {
+        margin: auto;
+    }
+  }
+  .photos {
+
+    height: auto;
+    width: auto;
+
+
+    margin: auto;
+    #photo {
+      object-fit: cover;
+      width: auto;
+      height: 450px;
+
+      @media only screen and (max-width: 900px) {
+        height: 300px;
+      }
+
+      @media only screen and (max-width: 600px) {
+        height: 200px;
+      }
+
+      @media only screen and (max-width: 420px) {
+        width: 100vw;
+      }
+    }
+
+    .imageSelectors {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin: auto;
+      width: 100%;
+      padding: 0;
+
+      margin-top: -2rem;
+
+
+      .imageSelector {
+        margin: 0 1rem;
+        padding: 0;
+        width: 0.8rem;
+        height: 0.8rem;
+        background-color: white;
+        border-radius: 100%;
+        list-style-type: none;
+      }
+
+      .selected {
+        background-color: ${accent};
+      }
+    }
   }
 
 /*  @keyframes bgcolor {
@@ -174,6 +245,8 @@ const Style = styled.div`
     }
   }
 
+
+
   /*Vertical Sliding*/
   .slidingVertical{
     width: 12rem;
@@ -232,6 +305,24 @@ const Style = styled.div`
 
 const Home = (props) => {
 
+  const [currentImage, setCurrentImage] = useState(0);
+  const numOfImages = 3;
+
+  const updateImage = (i) => {
+    let newNumber = currentImage + i;
+
+    setCurrentImage(
+      newNumber >= 0 ? newNumber <= numOfImages ? newNumber : currentImage : currentImage
+    )
+  }
+
+  const buttons = [];
+  for (let i = 0; i <= numOfImages; i++) {
+    buttons.push(
+    <li className='imageSelector' className={currentImage === i ? 'selected imageSelector' : 'imageSelector'} onClick={()=>setCurrentImage(i)}/>
+    )
+  }
+
   return (
     <Style>
       <section className='head'>
@@ -246,6 +337,34 @@ const Home = (props) => {
           <span>god</span>
           <span>legend</span>
         </h1>   
+        <div className='therow'>
+          <div className='photos'>
+
+            {currentImage === 0 ? 
+            <img id='photo' src={screenshot1}/> :
+            currentImage === 1 ? 
+            <img id='photo' src={screenshot2}/> :
+            currentImage === 2 ? 
+            <img id='photo' src={screenshot3}/> :
+            currentImage === 3 ? 
+            <img id='photo' src={screenshot4}/>
+            : null
+            }
+
+            <div>
+              <ul className='imageSelectors'>
+              {
+                buttons.map(r => {
+                  return r;
+                })
+              }
+              </ul>
+            </div>
+{/* 
+            <div onClick={()=>updateImage(1)}>update image +</div>
+            <div onClick={()=>updateImage(-1)}>update image -</div> */}
+
+          </div>
         {!props.loggedIn ? 
         <div className='messyButtonContainer'>
           <Button className='bigButton' onClick={()=>{props.setRedirectPath('/register')}} ><span>Begin Journey</span></Button>
@@ -254,6 +373,7 @@ const Home = (props) => {
         <div className='messyButtonContainer'>
           <Button className='bigButton red' onClick={()=>{props.setRedirectPath('/heroes')}} ><span>My Heroes</span></Button>
         </div> }
+        </div>
       </section>
 
       <section className='siteInfo'>
