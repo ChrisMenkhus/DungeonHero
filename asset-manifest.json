@@ -1,27 +1,31 @@
 {
   "files": {
-    "main.css": "/DungeonHero/static/css/main.b4d8c150.chunk.css",
-    "main.js": "/DungeonHero/static/js/main.ec5c7387.chunk.js",
-    "main.js.map": "/DungeonHero/static/js/main.ec5c7387.chunk.js.map",
-    "runtime-main.js": "/DungeonHero/static/js/runtime-main.ad191d38.js",
-    "runtime-main.js.map": "/DungeonHero/static/js/runtime-main.ad191d38.js.map",
-    "static/js/2.079c309d.chunk.js": "/DungeonHero/static/js/2.079c309d.chunk.js",
-    "static/js/2.079c309d.chunk.js.map": "/DungeonHero/static/js/2.079c309d.chunk.js.map",
+    "main.css": "/DungeonHero/static/css/main.24b75f0b.chunk.css",
+    "main.js": "/DungeonHero/static/js/main.3d3d7b9b.chunk.js",
+    "main.js.map": "/DungeonHero/static/js/main.3d3d7b9b.chunk.js.map",
+    "runtime-main.js": "/DungeonHero/static/js/runtime-main.1c8b208d.js",
+    "runtime-main.js.map": "/DungeonHero/static/js/runtime-main.1c8b208d.js.map",
+    "static/js/2.4618440f.chunk.js": "/DungeonHero/static/js/2.4618440f.chunk.js",
+    "static/js/2.4618440f.chunk.js.map": "/DungeonHero/static/js/2.4618440f.chunk.js.map",
     "index.html": "/DungeonHero/index.html",
-    "precache-manifest.b52c74d364dbfdc5673620a8dde01978.js": "/DungeonHero/precache-manifest.b52c74d364dbfdc5673620a8dde01978.js",
+    "precache-manifest.421e194d901d31b9292558a4ed8a77d3.js": "/DungeonHero/precache-manifest.421e194d901d31b9292558a4ed8a77d3.js",
     "service-worker.js": "/DungeonHero/service-worker.js",
-    "static/css/main.b4d8c150.chunk.css.map": "/DungeonHero/static/css/main.b4d8c150.chunk.css.map",
-    "static/js/2.079c309d.chunk.js.LICENSE.txt": "/DungeonHero/static/js/2.079c309d.chunk.js.LICENSE.txt",
+    "static/css/main.24b75f0b.chunk.css.map": "/DungeonHero/static/css/main.24b75f0b.chunk.css.map",
+    "static/js/2.4618440f.chunk.js.LICENSE.txt": "/DungeonHero/static/js/2.4618440f.chunk.js.LICENSE.txt",
     "static/media/bg.jpg": "/DungeonHero/static/media/bg.78763adf.jpg",
     "static/media/combat.svg": "/DungeonHero/static/media/combat.2a605915.svg",
     "static/media/details.svg": "/DungeonHero/static/media/details.0e35cd52.svg",
     "static/media/equipment.svg": "/DungeonHero/static/media/equipment.1fa1edca.svg",
+    "static/media/screenshot1.png": "/DungeonHero/static/media/screenshot1.451338ca.png",
+    "static/media/screenshot2.png": "/DungeonHero/static/media/screenshot2.f81f4ce0.png",
+    "static/media/screenshot3.png": "/DungeonHero/static/media/screenshot3.9b64729f.png",
+    "static/media/screenshot4.png": "/DungeonHero/static/media/screenshot4.006a82a1.png",
     "static/media/skills.svg": "/DungeonHero/static/media/skills.700238a9.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.ad191d38.js",
-    "static/js/2.079c309d.chunk.js",
-    "static/css/main.b4d8c150.chunk.css",
-    "static/js/main.ec5c7387.chunk.js"
+    "static/js/runtime-main.1c8b208d.js",
+    "static/js/2.4618440f.chunk.js",
+    "static/css/main.24b75f0b.chunk.css",
+    "static/js/main.3d3d7b9b.chunk.js"
   ]
 }
